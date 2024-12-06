@@ -10,21 +10,21 @@ export function Footer() {
 				</p>
 				<div className="flex items-center space-x-4">
 					<a
-						href="https://github.com"
+						href="https://github.com/KurutoDenzeru"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
 						<Github className="h-5 w-5" />
 					</a>
 					<a
-						href="https://instagram.com"
+						href="https://www.instagram.com/krtclcdy/"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
 						<Instagram className="h-5 w-5" />
 					</a>
 					<a
-						href="https://linkedin.com"
+						href="https://www.linkedin.com/in/kurtcalacday/"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
