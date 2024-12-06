@@ -11,7 +11,7 @@ export function Footer() {
 				</p>
 				<div className="flex items-center space-x-4">
 					<a
-						href="https://github.com/KurutoDenzeru"
+						href="https://github.com/KurutoDenzeru/Barcoda"
 						target="_blank"
 						rel="noopener noreferrer"
 					>

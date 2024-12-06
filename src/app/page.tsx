@@ -56,6 +56,17 @@ const FORMAT_LIMITS: Record<string, number> = {
 	CODABAR: 20,
 };
 
+const FORMAT_EXAMPLES: Record<string, string> = {
+	CODE128: "Example123",
+	EAN13: "5901234123457",
+	EAN8: "96385074",
+	UPC: "042100005264",
+	CODE39: "CODE-39",
+	ITF14: "0891234567895",
+	MSI: "123456789",
+	CODABAR: "A40156B",
+};
+
 const DEFAULT_OPTIONS = {
 	width: 2,
 	height: 100,
@@ -79,6 +90,12 @@ export default function BarcodeGenerator() {
 	const [maxLength, setMaxLength] = useState(
 		FORMAT_LIMITS[DEFAULT_OPTIONS.format],
 	);
+	const getPlaceholder = () => {
+		const format = barcodeOptions.format;
+		const limit = FORMAT_LIMITS[format];
+		const example = FORMAT_EXAMPLES[format];
+		return `Example: ${example} (max ${limit} chars)`;
+	};
 
 	useEffect(() => {
 		setMaxLength(FORMAT_LIMITS[barcodeOptions.format] || 20);
@@ -170,7 +187,7 @@ export default function BarcodeGenerator() {
 							<PopoverTrigger asChild>
 								<div className="flex items-center">
 									<Input
-										placeholder="Enter barcode value"
+										placeholder={getPlaceholder()}
 										value={barcodeValue}
 										maxLength={maxLength}
 										onChange={(e) => setBarcodeValue(e.target.value)}
