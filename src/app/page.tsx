@@ -378,31 +378,42 @@ export default function BarcodeGenerator() {
 								</>
 							)}
 
+							{/* Colors Section */}
 							<Popover>
 								<PopoverTrigger asChild>
 									<div className="space-y-4">
 										<Label>Colors</Label>
 										<div className="grid grid-cols-2 gap-4">
-											<Input
-												type="color"
-												value={barcodeOptions.lineColor}
-												onChange={(e) =>
-													setBarcodeOptions({
-														...barcodeOptions,
-														lineColor: e.target.value,
-													})
-												}
-											/>
-											<Input
-												type="color"
-												value={barcodeOptions.background}
-												onChange={(e) =>
-													setBarcodeOptions({
-														...barcodeOptions,
-														background: e.target.value,
-													})
-												}
-											/>
+											<div>
+												<Label htmlFor="lineColor">Line Color</Label>
+												<Input
+													id="lineColor"
+													type="color"
+													value={barcodeOptions.lineColor}
+													onChange={(e) =>
+														setBarcodeOptions({
+															...barcodeOptions,
+															lineColor: e.target.value,
+														})
+													}
+												/>
+											</div>
+											<div>
+												<Label htmlFor="backgroundColor">
+													Background Color
+												</Label>
+												<Input
+													id="backgroundColor"
+													type="color"
+													value={barcodeOptions.background}
+													onChange={(e) =>
+														setBarcodeOptions({
+															...barcodeOptions,
+															background: e.target.value,
+														})
+													}
+												/>
+											</div>
 										</div>
 									</div>
 								</PopoverTrigger>
