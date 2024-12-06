@@ -133,14 +133,7 @@ export default function BarcodeGenerator() {
 
 	return (
 		<div className="relative min-h-[calc(100vh-8rem)] bg-background dark:bg-[#1a1a1a] p-4 items-center justify-center flex">
-			<div
-				className={`absolute inset-0 -z-10 ${
-					// Light mode background
-					"bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]"
-				} dark:bg-[linear-gradient(to_right,#333333_1px,transparent_1px),linear-gradient(to_bottom,#333333_1px,transparent_1px)] bg-[size:6rem_4rem]`}
-			>
-				<div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_50%_200px,#C9EBFF,transparent)] dark:bg-[radial-gradient(circle_500px_at_50%_200px,#333333,transparent)]" />
-			</div>
+			<div className="absolute inset-0 -z-10 h-full w-full bg-white dark:bg-gray-900 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2a2a2a_1px,transparent_1px)] [background-size:16px_16px]" />
 			<div className="container mx-auto">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:flex-row-reverse">
 					{/* Preview Section - Shows first on mobile */}
