@@ -3,7 +3,7 @@ import JsBarcode from "jsbarcode";
 export const generateBarcode = (
 	barcodeRef: React.RefObject<SVGSVGElement>,
 	barcodeData: string,
-	barcodeConfig: any,
+	barcodeConfig: JsBarcode.Options,
 	textDecoration: string,
 ) => {
 	if (barcodeRef.current) {

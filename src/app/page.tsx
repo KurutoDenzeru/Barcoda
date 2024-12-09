@@ -58,13 +58,15 @@ export default function BarcodeGenerator() {
 	);
 
 	useEffect(() => {
-		const errorMessage = generateBarcode(
-			barcodeRef,
-			barcodeData,
-			barcodeConfig,
-			textDecoration,
-		);
-		setError(errorMessage);
+		if (barcodeRef.current) {
+			const errorMessage = generateBarcode(
+				barcodeRef.current,
+				barcodeData,
+				barcodeConfig,
+				textDecoration,
+			);
+			setError(errorMessage);
+		}
 	}, [barcodeData, barcodeConfig, textDecoration]);
 
 	return (
