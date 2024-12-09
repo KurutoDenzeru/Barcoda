@@ -86,9 +86,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<body className="flex flex-col min-h-screen">
-				<ThemeProvider>
+				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 					<Navbar />
 					<main className="flex-grow flex items-center justify-center">
 						{children}
