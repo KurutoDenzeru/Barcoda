@@ -94,7 +94,7 @@ const IMAGE_FORMATS = [
 
 const formatExamples: Record<string, string> = {
 	CODE128: "Example123",
-	CODE128A: "Example123",
+	CODE128A: "EXAMPLE",
 	CODE128B: "Example123",
 	CODE128C: "1234567890",
 	EAN13: "5901234123457",
@@ -132,7 +132,7 @@ export default function BarcodeGenerator() {
 	const [margin, setMargin] = useState(10);
 	const [background, setBackground] = useState("#ffffff");
 	const [lineColor, setLineColor] = useState("#000000");
-	const [showText, setShowText] = useState(false);
+	const [showText, setShowText] = useState(true);
 	const [textAlign, setTextAlign] = useState("center");
 	const [font, setFont] = useState("monospace");
 	const [fontSize, setFontSize] = useState(20);
@@ -219,14 +219,14 @@ export default function BarcodeGenerator() {
 	}, []);
 
 	return (
-		<div className="relative min-h-[calc(100vh-8rem)] bg-background dark:bg-[#1a1a1a] p-4 items-center justify-center flex">
+		<div className="container mx-auto px-4 py-12 items-center justify-center flex">
 			<div className="absolute inset-0 -z-10 h-full w-full bg-white dark:bg-gray-900 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#2a2a2a_1px,transparent_1px)] [background-size:16px_16px]" />
 			<div className="container mx-auto">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:flex-row-reverse">
 					{/* Preview Section */}
 					<div className="order-1 md:order-2 bg-white/50 dark:bg-black/50 backdrop-blur-sm p-8 rounded-lg content-center shadow-md">
-						<div className="flex flex-col items-center justify-center">
-							<svg ref={barcodeRef}>
+						<div className="flex flex-col p-4 items-center justify-center rounded-lg shadow-md">
+							<svg ref={barcodeRef} className="rounded-lg">
 								<title>Barcode Preview</title>
 							</svg>
 							{error && (
@@ -240,7 +240,7 @@ export default function BarcodeGenerator() {
 						<div className="mt-4 flex justify-center">
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
-									<Button>
+									<Button className="w-full">
 										<Download className="mr-2 h-4 w-4" />
 										Download
 									</Button>
@@ -310,7 +310,7 @@ export default function BarcodeGenerator() {
 
 						{/* Bar Width Slider */}
 						<div className="space-y-4">
-							<Label htmlFor="barWidth">Bar Width</Label>
+							<Label htmlFor="barWidth">Bar Width ({barWidth}px)</Label>
 							<Slider
 								value={[barWidth]}
 								min={1}
@@ -322,7 +322,7 @@ export default function BarcodeGenerator() {
 
 						{/* Height Slider */}
 						<div className="space-y-4">
-							<Label htmlFor="height">Height</Label>
+							<Label htmlFor="height">Height ({height}px)</Label>
 							<Slider
 								value={[height]}
 								min={50}
@@ -334,7 +334,7 @@ export default function BarcodeGenerator() {
 
 						{/* Margin Slider */}
 						<div className="space-y-4">
-							<Label htmlFor="margin">Margin</Label>
+							<Label htmlFor="margin">Margin ({margin}px)</Label>
 							<Slider
 								value={[margin]}
 								min={0}
@@ -463,7 +463,9 @@ export default function BarcodeGenerator() {
 											</Button>
 										</div>
 										<div className="mt-4 space-y-4">
-											<Label htmlFor="textMargin">Text Margin</Label>
+											<Label htmlFor="textMargin">
+												Text Margin ({textMargin}px)
+											</Label>
 											<Slider
 												value={[textMargin]}
 												min={0}
