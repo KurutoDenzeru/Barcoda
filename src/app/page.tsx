@@ -5,8 +5,6 @@ import JsBarcode from "jsbarcode";
 import {
 	AlertCircle,
 	Download,
-	Eye,
-	EyeOff,
 	Info,
 	Bold,
 	Italic,
@@ -86,7 +84,7 @@ const fontOptions: string[] = [
 	"MS Serif",
 	"MS Sans Serif",
 ];
-const textAlignOptions: string[] = ["left", "center", "right"];
+
 const IMAGE_FORMATS = [
 	{ label: "PNG Image", value: "png" },
 	{ label: "JPEG Image", value: "jpeg" },
@@ -139,7 +137,9 @@ export default function BarcodeGenerator() {
 	const [font, setFont] = useState("monospace");
 	const [fontSize, setFontSize] = useState(20);
 	const [textMargin, setTextMargin] = useState(2);
-	const [fontStyle, setFontStyle] = useState<string[]>([]);
+	const [fontWeight, setFontWeight] = useState("normal");
+	const [fontStyle, setFontStyle] = useState("normal");
+	const [textDecoration, setTextDecoration] = useState("none");
 	const [error, setError] = useState("");
 
 	const barcodeRef = useRef<SVGSVGElement>(null);
@@ -157,12 +157,10 @@ export default function BarcodeGenerator() {
 			lineColor: lineColor,
 			displayValue: showText,
 			textAlign: textAlign,
-			font: `${fontStyle.includes("bold") ? "bold " : ""}${
-				fontStyle.includes("italic") ? "italic " : ""
-			}${font}`,
+			font: font,
 			fontSize: fontSize,
 			textMargin: textMargin,
-			textDecoration: fontStyle.includes("underline") ? "underline" : "none",
+			fontOptions: `${fontWeight} ${fontStyle}`,
 		}),
 		[
 			barcodeType,
@@ -176,6 +174,7 @@ export default function BarcodeGenerator() {
 			font,
 			fontSize,
 			textMargin,
+			fontWeight,
 			fontStyle,
 		],
 	);
@@ -184,12 +183,16 @@ export default function BarcodeGenerator() {
 		if (barcodeRef.current) {
 			try {
 				JsBarcode(barcodeRef.current, barcodeData, barcodeConfig);
+				if (barcodeRef.current.querySelector("text")) {
+					const textElement = barcodeRef.current.querySelector("text");
+					textElement?.setAttribute("text-decoration", textDecoration);
+				}
 				setError("");
 			} catch (err) {
 				setError("Invalid barcode data for the selected type");
 			}
 		}
-	}, [barcodeData, barcodeConfig]);
+	}, [barcodeData, barcodeConfig, textDecoration]);
 
 	useEffect(() => {
 		generateBarcode();
@@ -221,8 +224,8 @@ export default function BarcodeGenerator() {
 			<div className="container mx-auto">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:flex-row-reverse">
 					{/* Preview Section */}
-					<div className="order-1 md:order-2 bg-white/50 dark:bg-black/50 backdrop-blur-sm p-8 rounded-lg content-center">
-						<div className="flex flex-col items-center justify-center min-h-[300px]">
+					<div className="order-1 md:order-2 bg-white/50 dark:bg-black/50 backdrop-blur-sm p-8 rounded-lg content-center shadow-md">
+						<div className="flex flex-col items-center justify-center">
 							<svg ref={barcodeRef}>
 								<title>Barcode Preview</title>
 							</svg>
@@ -257,7 +260,7 @@ export default function BarcodeGenerator() {
 					</div>
 
 					{/* Controls Section */}
-					<div className="order-2 md:order-1 space-y-6 bg-white/50 dark:bg-black/50 backdrop-blur-sm p-8 rounded-lg">
+					<div className="order-2 md:order-1 space-y-6 bg-white/50 dark:bg-black/50 backdrop-blur-sm p-8 rounded-lg shadow-md">
 						{/* Barcode Data Input with Placeholder and Info */}
 						<div className="space-y-4">
 							<Label htmlFor="barcodeData">Barcode Data</Label>
@@ -389,32 +392,24 @@ export default function BarcodeGenerator() {
 									<TabsContent value="style" className="mt-4">
 										<div className="flex flex-wrap gap-2">
 											<Button
-												variant={
-													fontStyle.includes("bold") ? "default" : "outline"
+												variant={fontWeight === "bold" ? "default" : "outline"}
+												onClick={() =>
+													setFontWeight(
+														fontWeight === "bold" ? "normal" : "bold",
+													)
 												}
-												onClick={() => {
-													setFontStyle((prev) =>
-														prev.includes("bold")
-															? prev.filter((s) => s !== "bold")
-															: [...prev, "bold"],
-													);
-												}}
 												className="flex-1"
 											>
 												<Bold className="h-4 w-4 mr-2" />
 												Bold
 											</Button>
 											<Button
-												variant={
-													fontStyle.includes("italic") ? "default" : "outline"
+												variant={fontStyle === "italic" ? "default" : "outline"}
+												onClick={() =>
+													setFontStyle(
+														fontStyle === "italic" ? "normal" : "italic",
+													)
 												}
-												onClick={() => {
-													setFontStyle((prev) =>
-														prev.includes("italic")
-															? prev.filter((s) => s !== "italic")
-															: [...prev, "italic"],
-													);
-												}}
 												className="flex-1"
 											>
 												<Italic className="h-4 w-4 mr-2" />
@@ -422,17 +417,15 @@ export default function BarcodeGenerator() {
 											</Button>
 											<Button
 												variant={
-													fontStyle.includes("underline")
-														? "default"
-														: "outline"
+													textDecoration === "underline" ? "default" : "outline"
 												}
-												onClick={() => {
-													setFontStyle((prev) =>
-														prev.includes("underline")
-															? prev.filter((s) => s !== "underline")
-															: [...prev, "underline"],
-													);
-												}}
+												onClick={() =>
+													setTextDecoration(
+														textDecoration === "underline"
+															? "none"
+															: "underline",
+													)
+												}
 												className="flex-1"
 											>
 												<Underline className="h-4 w-4 mr-2" />
