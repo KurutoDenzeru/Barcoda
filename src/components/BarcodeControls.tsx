@@ -155,6 +155,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 				<Label htmlFor="barWidth">Bar Width ({barWidth}px)</Label>
 				<Slider
 					value={[barWidth]}
+					aria-label="Bar Width"
 					min={1}
 					max={10}
 					step={1}
@@ -167,6 +168,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 				<Label htmlFor="height">Height ({height}px)</Label>
 				<Slider
 					value={[height]}
+					aria-label="Height"
 					min={50}
 					max={500}
 					step={10}
@@ -179,6 +181,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 				<Label htmlFor="margin">Margin ({margin}px)</Label>
 				<Slider
 					value={[margin]}
+					aria-label="Margin"
 					min={0}
 					max={50}
 					step={5}
@@ -302,6 +305,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 								<Label htmlFor="textMargin">Text Margin ({textMargin}px)</Label>
 								<Slider
 									value={[textMargin]}
+									aria-label="Text Margin"
 									min={0}
 									max={20}
 									step={1}

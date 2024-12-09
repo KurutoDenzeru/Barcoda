@@ -14,6 +14,7 @@ export function Footer() {
 						href="https://github.com/KurutoDenzeru/Barcoda"
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label="GitHub"
 					>
 						<Github className="h-5 w-5" />
 					</a>
@@ -21,6 +22,7 @@ export function Footer() {
 						href="https://www.instagram.com/krtclcdy/"
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label="Instagram"
 					>
 						<Instagram className="h-5 w-5" />
 					</a>
@@ -28,6 +30,7 @@ export function Footer() {
 						href="https://www.linkedin.com/in/kurtcalacday/"
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label="LinkedIn"
 					>
 						<Linkedin className="h-5 w-5" />
 					</a>
