@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-export default function Error({
+export default function ErrorComponent({
 	error,
 	reset,
 }: { error: Error; reset: () => void }) {
