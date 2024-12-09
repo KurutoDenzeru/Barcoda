@@ -1,28 +1,25 @@
 import JsBarcode from "jsbarcode";
 
 export const generateBarcode = (
-	barcodeRef: React.RefObject<SVGSVGElement>,
+	barcodeElement: SVGSVGElement,
 	barcodeData: string,
 	barcodeConfig: JsBarcode.Options,
 	textDecoration: string,
 ) => {
-	if (barcodeRef.current) {
-		try {
-			JsBarcode(barcodeRef.current, barcodeData, barcodeConfig);
-			if (barcodeRef.current.querySelector("text")) {
-				const textElement = barcodeRef.current.querySelector("text");
-				textElement?.setAttribute("text-decoration", textDecoration);
-			}
-			return "";
-		} catch (err) {
-			return "Invalid barcode data for the selected type";
+	try {
+		JsBarcode(barcodeElement, barcodeData, barcodeConfig);
+		if (barcodeElement.querySelector("text")) {
+			const textElement = barcodeElement.querySelector("text");
+			textElement?.setAttribute("text-decoration", textDecoration);
 		}
+		return "";
+	} catch (err) {
+		return "Invalid barcode data for the selected type";
 	}
-	return "";
 };
 
 export const downloadBarcode = (
-	barcodeRef: React.RefObject<SVGSVGElement>,
+	barcodeRef: React.RefObject<SVGSVGElement | null>,
 	format: string,
 ) => {
 	if (barcodeRef.current) {

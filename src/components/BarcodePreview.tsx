@@ -7,23 +7,23 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Download } from "lucide-react";
+import { Download, AlertCircle } from "lucide-react";
 import { IMAGE_FORMATS } from "./constants/barcodeConstants";
 import { downloadBarcode } from "./utils/barcodeUtils";
 
 interface BarcodePreviewProps {
-	barcodeRef: React.RefObject<SVGSVGElement>;
+	barcodeElement: React.RefObject<SVGSVGElement | null>;
 	error: string;
 }
 
 export const BarcodePreview: React.FC<BarcodePreviewProps> = ({
-	barcodeRef,
+	barcodeElement,
 	error,
 }) => {
 	return (
 		<div className="order-1 md:order-2 bg-white/50 dark:bg-black/50 backdrop-blur-sm p-8 rounded-lg content-center shadow-md">
 			<div className="flex flex-col p-4 items-center justify-center rounded-lg shadow-md">
-				<svg ref={barcodeRef} className="rounded-lg">
+				<svg ref={barcodeElement} className="rounded-lg">
 					<title>Barcode Preview</title>
 				</svg>
 				{error && (
@@ -46,7 +46,11 @@ export const BarcodePreview: React.FC<BarcodePreviewProps> = ({
 						{IMAGE_FORMATS.map((format) => (
 							<DropdownMenuItem
 								key={format.value}
-								onClick={() => downloadBarcode(barcodeRef, format.value)}
+								onClick={() => {
+									if (barcodeElement.current) {
+										downloadBarcode(barcodeElement, format.value);
+									}
+								}}
 							>
 								{format.label}
 							</DropdownMenuItem>
