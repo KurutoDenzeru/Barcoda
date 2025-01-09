@@ -13,7 +13,7 @@ export default function BarcodeGenerator() {
 	const [margin, setMargin] = useState(10);
 	const [background, setBackground] = useState("#ffffff");
 	const [lineColor, setLineColor] = useState("#000000");
-	const [showText, setShowText] = useState(true);
+	const [showText, setShowText] = useState(false);
 	const [textAlign, setTextAlign] = useState("center");
 	const [font, setFont] = useState("monospace");
 	const [fontSize, setFontSize] = useState(20);

@@ -152,40 +152,46 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 
 			{/* Bar Width Slider */}
 			<div className="space-y-4">
-				<Label htmlFor="barWidth">Bar Width ({barWidth}px)</Label>
+				<Label htmlFor="barWidth-slider">Bar Width ({barWidth}px)</Label>
 				<Slider
+					id="barWidth-slider"
 					value={[barWidth]}
-					aria-label="Bar Width"
+					aria-label={`Bar Width Slider, current value ${barWidth} pixels`}
 					min={1}
 					max={10}
 					step={1}
 					onValueChange={([value]) => setBarWidth(value)}
+					className="touch-none"
 				/>
 			</div>
 
 			{/* Height Slider */}
 			<div className="space-y-4">
-				<Label htmlFor="height">Height ({height}px)</Label>
+				<Label htmlFor="height-slider">Height ({height}px)</Label>
 				<Slider
+					id="height-slider"
 					value={[height]}
-					aria-label="Height"
+					aria-label={`Height Slider, current value ${height} pixels`}
 					min={50}
 					max={500}
 					step={10}
 					onValueChange={([value]) => setHeight(value)}
+					className="touch-none"
 				/>
 			</div>
 
 			{/* Margin Slider */}
 			<div className="space-y-4">
-				<Label htmlFor="margin">Margin ({margin}px)</Label>
+				<Label htmlFor="margin-slider">Margin ({margin}px)</Label>
 				<Slider
+					id="margin-slider"
 					value={[margin]}
-					aria-label="Margin"
+					aria-label={`Margin Slider, current value ${margin} pixels`}
 					min={0}
 					max={50}
 					step={5}
 					onValueChange={([value]) => setMargin(value)}
+					className="touch-none"
 				/>
 			</div>
 
@@ -212,15 +218,22 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 			</div>
 
 			{/* Show Text Toggle */}
-			<div className="flex items-center space-x-2">
+			<fieldset
+				className="flex items-center space-x-2"
+				aria-labelledby="text-display-label"
+			>
+				<span id="text-display-label" className="sr-only">
+					Text Display Options
+				</span>
 				<Switch
 					id="showText"
 					checked={showText}
 					onCheckedChange={setShowText}
+					aria-label="Toggle text display"
 				/>
 				<Label htmlFor="showText">Show Text</Label>
-			</div>
-
+				<Label htmlFor="showText">Show Text</Label>
+			</fieldset>
 			{/* Collapsible Text Options */}
 			{showText && (
 				<div className="space-y-4">
@@ -302,14 +315,18 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 								</Button>
 							</div>
 							<div className="mt-4 space-y-4">
-								<Label htmlFor="textMargin">Text Margin ({textMargin}px)</Label>
+								<Label htmlFor="text-margin-slider">
+									Text Margin ({textMargin}px)
+								</Label>
 								<Slider
+									id="text-margin-slider"
 									value={[textMargin]}
-									aria-label="Text Margin"
+									aria-label={`Text Margin Slider, current value ${textMargin} pixels`}
 									min={0}
 									max={20}
 									step={1}
 									onValueChange={([value]) => setTextMargin(value)}
+									className="touch-none"
 								/>
 							</div>
 						</TabsContent>
