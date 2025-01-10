@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 		"CODE128",
 		"EAN13",
 		"UPC",
+		"QR code generator",
 		"free barcode generator",
 	],
 	authors: [{ name: "Kurt Calacday", url: "https://github.com/KurutoDenzeru" }],
