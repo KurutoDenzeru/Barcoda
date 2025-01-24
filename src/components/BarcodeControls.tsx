@@ -102,7 +102,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 	const placeholder = `Example: ${formatExamples[barcodeType] || ""} (max ${maxLength} chars)`;
 
 	return (
-		<div className="order-2 md:order-1 space-y-6 bg-white/50 dark:bg-black/50 backdrop-blur-sm p-8 rounded-lg shadow-md">
+		<div className="order-2 md:order-1 space-y-6 bg-white/50 dark:bg-black/50 backdrop-blur-xs p-8 rounded-lg shadow-md">
 			{/* Barcode Data Input with Placeholder and Info */}
 			<div className="space-y-4">
 				<Label htmlFor="barcodeData">Barcode Data</Label>

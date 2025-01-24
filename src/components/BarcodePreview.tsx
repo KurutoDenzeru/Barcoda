@@ -21,7 +21,7 @@ export const BarcodePreview: React.FC<BarcodePreviewProps> = ({
 	error,
 }) => {
 	return (
-		<div className="order-1 md:order-2 bg-white/50 dark:bg-black/50 backdrop-blur-sm p-8 rounded-lg content-center shadow-md">
+		<div className="order-1 md:order-2 bg-white/50 dark:bg-black/50 backdrop-blur-xs p-8 rounded-lg content-center shadow-md">
 			<div className="flex flex-col p-4 items-center justify-center rounded-lg shadow-md">
 				<svg ref={barcodeElement} className="rounded-lg">
 					<title>Barcode Preview</title>

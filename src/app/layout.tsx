@@ -92,7 +92,7 @@ export default function RootLayout({
 			<body className="flex flex-col min-h-screen">
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 					<Navbar />
-					<main className="flex-grow flex items-center justify-center">
+					<main className="grow flex items-center justify-center">
 						{children}
 					</main>
 					<Footer />
