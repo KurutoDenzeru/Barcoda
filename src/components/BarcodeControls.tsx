@@ -232,7 +232,6 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 					aria-label="Toggle text display"
 				/>
 				<Label htmlFor="showText">Show Text</Label>
-				<Label htmlFor="showText">Show Text</Label>
 			</fieldset>
 			{/* Collapsible Text Options */}
 			{showText && (
