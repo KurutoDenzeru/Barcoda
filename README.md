@@ -1,4 +1,4 @@
-![Barcoda](./src/assets/barcoda.avif)
+![Barcoda](/sitemap.webp)
 
 Modern barcode generator that combines sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.
 
