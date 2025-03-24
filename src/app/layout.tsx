@@ -51,7 +51,7 @@ export const metadata: Metadata = {
 		siteName: "Barcoda",
 		images: [
 			{
-				url: "/src/assets/barcoda.avif",
+				url: "/sitemap.webp",
 				width: 1200,
 				height: 630,
 				alt: "Barcoda - Barcode Generator",
@@ -63,11 +63,10 @@ export const metadata: Metadata = {
 		title: "Barcoda - Barcode Generator",
 		description:
 			"Modern barcode generator that combines sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.",
-		images: ["/src/assets/barcoda.avif"],
+		images: ["/sitemap.webp"],
 		creator: "@krtclcdy",
 	},
 	icons: "/favicon.ico",
-	// manifest: "/manifest.json",
 	robots: {
 		index: true,
 		follow: true,
