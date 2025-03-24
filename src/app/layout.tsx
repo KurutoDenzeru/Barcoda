@@ -19,6 +19,9 @@ export const metadata: Metadata = {
 	},
 	description:
 		"Create, customize, and download barcodes in multiple formats. Free online barcode generator supporting CODE128, EAN13, UPC, and more.",
+	alternates: {
+		canonical: 'https://barcoda.vercel.app',
+	},
 	keywords: [
 		"barcode generator",
 		"barcode maker",
