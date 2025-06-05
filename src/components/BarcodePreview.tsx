@@ -37,7 +37,7 @@ export const BarcodePreview: React.FC<BarcodePreviewProps> = ({
 			<div className="mt-4 flex justify-center">
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button className="w-full">
+						<Button className="w-full cursor-pointer">
 							<Download className="mr-2 h-4 w-4" />
 							Download
 						</Button>
