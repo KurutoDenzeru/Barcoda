@@ -105,7 +105,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 		<div className="order-2 md:order-1 space-y-6 bg-white/50 dark:bg-black/50 backdrop-blur-xs p-8 rounded-lg shadow-md">
 			{/* Barcode Data Input with Placeholder and Info */}
 			<div className="space-y-4">
-				<Label htmlFor="barcodeData" className="font-semibold">Barcode Data:</Label>
+				<Label htmlFor="barcodeData" className="font-medium">Barcode Data:</Label>
 				<Popover>
 					<PopoverTrigger asChild>
 						<div className="flex items-center">
@@ -129,7 +129,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 
 			{/* Barcode Type Selection */}
 			<div className="space-y-4">
-				<Label htmlFor="barcodeType" className="font-semibold">Barcode Type:</Label>
+				<Label htmlFor="barcodeType" className="font-medium">Barcode Type:</Label>
 				<Select
 					value={barcodeType}
 					onValueChange={(value) => {
@@ -153,7 +153,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 			{/* Bar Width, Height and Margin Slider */}
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 				<div className="space-y-2">
-					<Label htmlFor="barWidth-slider" className="font-semibold">Bar Width: ({barWidth}px)</Label>
+					<Label htmlFor="barWidth-slider" className="font-medium">Bar Width: ({barWidth}px)</Label>
 					<Slider
 						id="barWidth-slider"
 						value={[barWidth]}
@@ -167,7 +167,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 				</div>
 
 				<div className="space-y-2">
-					<Label htmlFor="height-slider" className="font-semibold">Height: ({height}px)</Label>
+					<Label htmlFor="height-slider" className="font-medium">Height: ({height}px)</Label>
 					<Slider
 						id="height-slider"
 						value={[height]}
@@ -181,7 +181,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 				</div>
 
 				<div className="space-y-2">
-					<Label htmlFor="margin-slider" className="font-semibold">Margin: ({margin}px)</Label>
+					<Label htmlFor="margin-slider" className="font-medium">Margin: ({margin}px)</Label>
 					<Slider
 						id="margin-slider"
 						value={[margin]}
@@ -197,7 +197,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 
 			{/* Background Color Picker */}
 			<div className="space-y-4">
-				<Label htmlFor="background" className="font-semibold">Background Color:</Label>
+				<Label htmlFor="background" className="font-medium">Background Color:</Label>
 				<Input
 					id="background"
 					type="color"
@@ -208,7 +208,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 
 			{/* Line Color Picker */}
 			<div className="space-y-4">
-				<Label htmlFor="lineColor" className="font-semibold">Line Color:</Label>
+				<Label htmlFor="lineColor" className="font-medium">Line Color:</Label>
 				<Input
 					id="lineColor"
 					type="color"
@@ -236,7 +236,7 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 			{/* Collapsible Text Options */}
 			{showText && (
 				<div className="space-y-4">
-					<Label className="font-semibold">Text Settings:</Label>
+					<Label className="font-medium">Text Settings:</Label>
 					<Tabs defaultValue="alignment" className="w-full">
 						<TabsList className="grid w-full grid-cols-4">
 							<TabsTrigger value="style">Style</TabsTrigger>
