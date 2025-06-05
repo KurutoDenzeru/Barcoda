@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	Select,
@@ -116,7 +117,14 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 								placeholder={placeholder}
 								maxLength={maxLength}
 							/>
-							<Info className="ml-2 h-4 w-4 text-gray-500" />
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Info className="ml-2 h-4 w-4 text-gray-500 cursor-help" />
+								</TooltipTrigger>
+								<TooltipContent>
+									Enter up to {maxLength} characters for {barcodeType}.
+								</TooltipContent>
+							</Tooltip>
 						</div>
 					</PopoverTrigger>
 					<PopoverContent>
