@@ -203,26 +203,28 @@ export const BarcodeControls: React.FC<BarcodeControlsProps> = ({
 				</div>
 			</div>
 
-			{/* Background Color Picker */}
-			<div className="space-y-4">
-				<Label htmlFor="background" className="font-medium">Background Color:</Label>
-				<Input
-					id="background"
-					type="color"
-					value={background}
-					onChange={(e) => setBackground(e.target.value)}
-				/>
-			</div>
-
-			{/* Line Color Picker */}
-			<div className="space-y-4">
-				<Label htmlFor="lineColor" className="font-medium">Line Color:</Label>
-				<Input
-					id="lineColor"
-					type="color"
-					value={lineColor}
-					onChange={(e) => setLineColor(e.target.value)}
-				/>
+			{/* Background and Line Color Pickers Combined */}
+			<div className="flex flex-col sm:flex-row gap-4">
+				<div className="flex-1 space-y-2">
+					<Label htmlFor="background" className="font-medium">Background Color:</Label>
+					<Input
+						id="background"
+						type="color"
+						value={background}
+						onChange={(e) => setBackground(e.target.value)}
+						className="w-full h-10 p-1"
+					/>
+				</div>
+				<div className="flex-1 space-y-2">
+					<Label htmlFor="lineColor" className="font-medium">Line Color:</Label>
+					<Input
+						id="lineColor"
+						type="color"
+						value={lineColor}
+						onChange={(e) => setLineColor(e.target.value)}
+						className="w-full h-10 p-1"
+					/>
+				</div>
 			</div>
 
 			{/* Show Text Toggle */}
