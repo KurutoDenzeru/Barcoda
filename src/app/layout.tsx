@@ -60,7 +60,7 @@ export const metadata: Metadata = {
 		title: "Barcoda - Barcode Generator",
 		description:
 			"Modern barcode generator that combines sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.",
-		images: ["/sitemap.webp"],
+		images: ["/OpenGraph.webp"],
 		creator: "@krtclcdy",
 	},
 	icons: "/favicon.ico",
