@@ -1,8 +1,10 @@
-![Barcoda](/public/sitemap.webp)
+![Barcoda](/public/OpenGraph.webp)
 
 # Barcoda - Barcode Generator
 
-Modern barcode generator that combines sleek design with seamless functionality. Built on Next.js, Tailwind CSS, and Shadcn UI for effortless customization. Barcoda allows you to create, customize, and download barcodes in various formats, completely free of charge.
+🤳🏻 Modern barcode generator that combines sleek design with seamless functionality. Built on Next.js, Tailwind CSS, and Shadcn UI for effortless customization. Barcoda allows you to create, customize, and download barcodes in various formats, completely free of charge.
+
+---
 
 ## ✨ Features
 
@@ -15,56 +17,65 @@ Modern barcode generator that combines sleek design with seamless functionality.
 - **Responsive Design:** Works seamlessly on desktops, tablets, and mobile devices.
 - **Free and Open Source:** Use Barcoda without any cost and contribute to its development.
 
-## 🚀 Deploy your own
+---
 
-[![Deploy with Vercel](_deploy_vercel.svg)](https://vercel.com/new/clone?repository-url=https://github.com/KurutoDenzeru/barcoda)  [![Deploy with Netlify](_deploy_netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/KurutoDenzeru/barcoda)
-
-## 🛠️ Technologies Used
+## 🛠️ Tech Stack
 
 - [Next.js](https://nextjs.org/): React framework for building performant web applications.
 - [Tailwind CSS](https://tailwindcss.com/): Utility-first CSS framework for rapid UI development.
 - [Shadcn UI](https://ui.shadcn.com/): Re-usable components built using Radix UI and Tailwind CSS.
 - [JsBarcode](https://github.com/lindell/JsBarcode): JavaScript barcode generator.
 
-## 📦 Installation
+---
 
-1. Clone the repository:
+## 🚀 Deploy your own
 
-    ```bash
-    git clone https://github.com/KurutoDenzeru/Barcoda.git
-    ```
+[![Deploy with Vercel](_deploy_vercel.svg)](https://vercel.com/new/clone?repository-url=https://github.com/KurutoDenzeru/barcoda)  [![Deploy with Netlify](_deploy_netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/KurutoDenzeru/barcoda)
 
-2. Navigate to the project directory:
+---
 
-    ```bash
-    cd barcoda
-    ```
+## 🚀 Getting Started
 
-3. Install dependencies using bun:
+### 1. Clone the repository
 
-    ```bash
-    bun install
-    ```
+```bash
+git clone https://github.com/KurutoDenzeru/password-forge.git
+cd password-forge
+```
 
-## 💻 Commands
+### 2. Install dependencies
 
-All commands are run from the root of the project, from a terminal:
+```bash
+# With npm
+yarn install
+# or
+npm install
+# or
+bun install
+```
 
-Replace `bun` with your package manager of choice (`npm`, `pnpm`, `yarn`, etc.).
+### 3. Run the development server
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun run dev`             | Starts local dev server at `localhost:4321`      |
-| `bun run dev:network`     | Starts dev server on local network               |
-| `bun run build`           | Build your production site to `./dist/`          |
-| `bun run start`           | Starts the production server                       |
-| `bun run lint`            | Runs ESLint for code linting                     |
-| `bun run format`          | Runs Prettier for code formatting                 |
+```bash
+npm run dev
+# or
+yarn dev
+# or
+bun run dev
+```
 
-## 📝 Environment Variables
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-There are no required environment variables for this project to run.
+---
+
+## 📦 Build for Production
+
+```bash
+npm run build
+npm start
+```
+
+---
 
 ## ⚙️ Configuration
 
@@ -85,7 +96,3 @@ See `Contributing.md` for ways to get started.
 ## 📄 License
 
 [MIT](LICENSE)
-
-## 👨‍💻 Author
-
-- Kurt Calacday - [https://github.com/KurutoDenzeru](https://github.com/KurutoDenzeru)
