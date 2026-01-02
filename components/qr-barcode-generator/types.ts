@@ -20,8 +20,6 @@ export type BarcodeFormat =
 export interface BarcodeTextStyle {
   bold: boolean;
   italic: boolean;
-  underline: boolean;
-  strikethrough: boolean;
 }
 
 export interface BarcodeTextAlignment {
@@ -98,8 +96,6 @@ export const defaultBarcodeSettings: BarcodeSettings = {
   textStyle: {
     bold: false,
     italic: false,
-    underline: false,
-    strikethrough: false,
   },
   textAlignment: {
     position: "center",

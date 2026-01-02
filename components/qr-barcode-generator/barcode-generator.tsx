@@ -25,8 +25,6 @@ import {
 import {
   Bold,
   Italic,
-  Underline,
-  Strikethrough,
   AlignLeft,
   AlignCenter,
   AlignRight,
@@ -86,12 +84,8 @@ export const BarcodeGenerator = () => {
         valid: (valid) => {},
       });
 
-      // Post-process SVG text elements to apply decorations (underline/strikethrough) and styling
+      // Post-process SVG text elements to apply text styling
       if (svgRef.current) {
-        // Remove any previously added decoration lines
-        const oldDecor = svgRef.current.querySelectorAll(".barcode-decoration");
-        oldDecor.forEach((el) => el.remove());
-
         const texts = svgRef.current.querySelectorAll("text");
         texts.forEach((t) => {
           // show/hide text
@@ -106,77 +100,6 @@ export const BarcodeGenerator = () => {
           if (pos === "left") t.setAttribute("text-anchor", "start");
           else if (pos === "center") t.setAttribute("text-anchor", "middle");
           else t.setAttribute("text-anchor", "end");
-
-          // Add underline / strikethrough using SVG lines for consistent rendering
-          const hasUnderline = settings.textStyle.underline;
-          const hasStrikethrough = settings.textStyle.strikethrough;
-
-          if (hasUnderline || hasStrikethrough) {
-            try {
-              const bbox = (t as SVGGraphicsElement).getBBox();
-              const fontSize = settings.textSize.fontSize;
-
-              // Determine a subtle stroke thickness based on font size
-              const strokeWidth = Math.max(1, Math.round(fontSize * 0.05));
-
-              // Small horizontal inset so decoration lines don't touch glyph edges
-              const hInset = Math.max(1, Math.round(fontSize * 0.01));
-              const x1 = bbox.x + hInset;
-              const x2 = bbox.x + bbox.width - hInset;
-
-              // Approximate center and baseline positions for better placement across fonts
-              const centerY = bbox.y + bbox.height * 1.2;
-              const baselineApprox = bbox.y + bbox.height * 1.2;
-
-              // Place strikethrough slightly below the visual middle so it sits within glyphs
-              let strikeY = null as number | null;
-              if (hasStrikethrough) {
-                // nudge strike toward the lower half of the glyph area
-                strikeY = centerY + Math.max(0, fontSize * 5);
-                // clamp within bbox
-                strikeY = Math.min(Math.max(strikeY, bbox.y + strokeWidth + 1), bbox.y + bbox.height - strokeWidth - 1);
-
-                const strike = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                strike.setAttribute("x1", String(x1));
-                strike.setAttribute("x2", String(x2));
-                strike.setAttribute("y1", String(strikeY));
-                strike.setAttribute("y2", String(strikeY));
-                strike.setAttribute("stroke", settings.lineColor);
-                strike.setAttribute("stroke-width", String(strokeWidth));
-                strike.setAttribute("stroke-linecap", "round");
-                strike.setAttribute("class", "barcode-decoration");
-                svgRef.current!.appendChild(strike);
-              }
-
-              if (hasUnderline) {
-                // Draw underline below the baseline with a healthy offset
-                const baseOffset = Math.max(3, Math.round(fontSize * 0.22));
-                let y = baselineApprox + baseOffset;
-
-                // If there's a strikethrough, ensure underline is below it with a gap
-                if (strikeY !== null) {
-                  const gap = Math.max(4, Math.round(fontSize * 0.08));
-                  y = Math.max(y, strikeY + gap);
-                }
-
-                // clamp to avoid being too far out
-                y = Math.min(y, bbox.y + bbox.height + Math.max(4, fontSize * 0.12));
-
-                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-                line.setAttribute("x1", String(x1));
-                line.setAttribute("x2", String(x2));
-                line.setAttribute("y1", String(y));
-                line.setAttribute("y2", String(y));
-                line.setAttribute("stroke", settings.lineColor);
-                line.setAttribute("stroke-width", String(strokeWidth));
-                line.setAttribute("stroke-linecap", "round");
-                line.setAttribute("class", "barcode-decoration");
-                svgRef.current!.appendChild(line);
-              }
-            } catch (err) {
-              // Ignoring decoration errors
-            }
-          }
         });
       }
     } catch (error) {
@@ -615,32 +538,6 @@ export const BarcodeGenerator = () => {
                       >
                         <Italic className="size-4" />
                       </Button>
-                      <Button
-                        variant={settings.textStyle.underline ? "default" : "outline"}
-                        size="icon"
-                        onClick={() =>
-                          updateSettings("textStyle", {
-                            ...settings.textStyle,
-                            underline: !settings.textStyle.underline,
-                          })
-                        }
-                        aria-label="Underline"
-                      >
-                        <Underline className="size-4" />
-                      </Button>
-                      <Button
-                        variant={settings.textStyle.strikethrough ? "default" : "outline"}
-                        size="icon"
-                        onClick={() =>
-                          updateSettings("textStyle", {
-                            ...settings.textStyle,
-                            strikethrough: !settings.textStyle.strikethrough,
-                          })
-                        }
-                        aria-label="Strikethrough"
-                      >
-                        <Strikethrough className="size-4" />
-                      </Button> 
                     </div>
                   </div>
                   
