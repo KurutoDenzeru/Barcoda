@@ -83,11 +83,7 @@ export const BarcodeGenerator = () => {
         fontOptions: fontStyle || "",
         textAlign: settings.textAlignment.position,
         textMargin: settings.textAlignment.margin,
-        valid: (valid) => {
-          if (!valid) {
-            console.warn(`Invalid barcode value for format ${settings.format}`);
-          }
-        },
+        valid: (valid) => {},
       });
 
       // Post-process SVG text elements to apply decorations (underline/strikethrough) and styling
@@ -161,20 +157,20 @@ export const BarcodeGenerator = () => {
                 svgRef.current!.appendChild(line);
               }
             } catch (err) {
-              console.warn("Could not apply text decorations:", err);
+              // Ignoring decoration errors
             }
           }
         });
       }
     } catch (error) {
-      console.error("Error generating barcode:", error);
+      // Error generating barcode - suppressed in production
       // Try with default CODE128 if current format fails
       try {
         JsBarcode(svgRef.current!, settings.value, {
           format: "CODE128",
         });
       } catch (fallbackError) {
-        console.error("Fallback barcode generation failed:", fallbackError);
+        // Fallback generation failed - suppressed
       }
     }
   }, [settings]);
@@ -225,7 +221,6 @@ export const BarcodeGenerator = () => {
   const handleFormatChange = (value: string | null) => {
     if (!value) return;
     const defaultVal = getDefaultValueForFormat(value as BarcodeFormat);
-    console.log(`Barcode format switched to: ${value}. Setting value to: ${defaultVal}`);
     updateSettings("format", value as BarcodeFormat);
     updateSettings("value", defaultVal);
   };
@@ -674,14 +669,14 @@ export const BarcodeGenerator = () => {
               <div className="space-y-2">
                 <Label>Font Family</Label>
                 <ScrollArea className="h-40 rounded-md border p-2">
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                     {FONT_OPTIONS.map((font) => (
                       <Button
                         key={font}
-                        variant={settings.font === font ? "default" : "outline"}
+                        variant={settings.font === font ? "chipActive" : "chip"}
                         size="sm"
                         onClick={() => updateSettings("font", font)}
-                        className="justify-start text-sm"
+                        className="justify-start text-sm px-3"
                         style={{ fontFamily: font }}
                       >
                         {font}

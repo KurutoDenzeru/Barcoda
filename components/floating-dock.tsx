@@ -90,9 +90,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                 onClick={toggleTheme}
                 className={cn(
                   "flex items-center justify-center size-10 rounded-xl transition-all duration-300",
-                  theme === "light"
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
-                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                  "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 )}
                 aria-label="Toggle theme"
               >
@@ -171,9 +169,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                 onClick={toggleTheme}
                 className={cn(
                   "flex items-center justify-center size-11 rounded-xl transition-all duration-300",
-                  theme === "light"
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
-                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                  "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 )}
                 aria-label="Toggle theme"
               >
