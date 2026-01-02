@@ -190,7 +190,7 @@ export const CodeScanner = () => {
   return (
     <div className="space-y-6">
       {/* Scanner Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Camera/Upload Section */}
         <div className="space-y-4">
           <div className="flex gap-2">
@@ -229,7 +229,7 @@ export const CodeScanner = () => {
           {/* Scanner Preview */}
           <div
             className={cn(
-              "relative rounded-2xl border-2 border-dashed transition-all duration-200 overflow-hidden bg-muted/30 min-h-[300px]",
+              "relative rounded-2xl border-2 border-dashed transition-all duration-200 overflow-hidden bg-muted/30 min-h-75 w-full max-w-lg",
               isDragging && "border-primary bg-primary/5",
               isScanning && "border-primary"
             )}

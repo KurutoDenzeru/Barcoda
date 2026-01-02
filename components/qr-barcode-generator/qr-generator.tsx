@@ -203,11 +203,11 @@ export const QRCodeGenerator = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Preview Section */}
       <div className="order-1 lg:order-2 flex flex-col items-center justify-center p-6 bg-muted/30 rounded-2xl border border-border/50 min-h-75">
         <div
-          className="bg-white rounded-xl p-4 shadow-sm overflow-hidden"
+          className="bg-white rounded-xl p-4 shadow-sm overflow-auto max-w-full w-full max-w-lg"
           style={{ borderRadius: `${settings.borderRadius}px` }}
         >
           <div ref={qrRef} />
