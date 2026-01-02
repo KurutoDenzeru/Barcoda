@@ -25,6 +25,8 @@ import {
 import {
   Bold,
   Italic,
+  Underline,
+  Strikethrough,
   AlignLeft,
   AlignCenter,
   AlignRight,
@@ -32,9 +34,8 @@ import {
   Share2,
   Copy,
   ChevronDown,
+  Info,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,12 +44,178 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+
+type ValidationTone = "info" | "error";
+
+const FORMAT_TIPS: Record<BarcodeFormat, string> = {
+  CODE128: "Flexible: letters, numbers, and symbols all work (e.g., HELLO-128).",
+  CODE128A: "Uppercase letters, numbers, and control characters work well (e.g., ABC123).",
+  CODE128C: "Digits only in even counts; great for numeric IDs (e.g., 12345678).",
+  EAN13: "Use 12 digits; we append the checksum for you (13th digit optional).",
+  EAN8: "Use 7 digits; checksum is auto-calculated (8th digit optional).",
+  UPC: "Use 11 digits; we add the checksum to make 12 (12th optional if you have it).",
+  CODE39: "Uppercase A-Z, 0-9, spaces, and - . $ / + % are allowed.",
+  ITF14: "Use 13 digits; checksum produces 14 digits total (e.g., 1234567890123).",
+  ITF: "Numeric only with an even number of digits (e.g., 123456).",
+  MSI: "Numeric only; checksums are handled automatically (e.g., 123456).",
+  MSI10: "Numeric only; single checksum is added for you (e.g., 123456).",
+  MSI11: "Numeric only; single checksum is added for you (e.g., 123456).",
+  MSI1010: "Numeric only; double checksum is added automatically.",
+  MSI1110: "Numeric only; double checksum is added automatically.",
+  pharmacode: "Numeric only for pharma codes (e.g., 1234).",
+  codabar: "Start/end with A-D; digits and - $ : / . + are allowed in the middle.",
+};
+
+const DIGITS_ONLY = /^\d+$/;
+const CODE39_ALLOWED = /^[0-9A-Z \-.$/+%]*$/;
+const CODABAR_ALLOWED = /^[A-D][0-9\-$/:\.+]*[A-D]?$/i;
+
+const validateBarcodeValue = (
+  format: BarcodeFormat,
+  value: string
+): { variant: ValidationTone; message: string } => {
+  const trimmed = value.trim();
+  const normalized = trimmed.toUpperCase();
+
+  if (!trimmed) {
+    return { variant: "info", message: "Add a value to preview the barcode." };
+  }
+
+  switch (format) {
+    case "EAN13": {
+      if (!DIGITS_ONLY.test(trimmed)) {
+        return { variant: "error", message: "EAN-13 accepts digits only - remove spaces or letters." };
+      }
+      if (trimmed.length < 12) {
+        return {
+          variant: "error",
+          message: `EAN-13 needs 12 digits, we auto-calc the checksum. Add ${12 - trimmed.length} more.`,
+        };
+      }
+      if (trimmed.length === 12) {
+        return { variant: "info", message: "Great: 12 digits set; we will append the checksum digit." };
+      }
+      if (trimmed.length === 13) {
+        return { variant: "info", message: "Using your supplied checksum (13 digits total)." };
+      }
+      return { variant: "error", message: "EAN-13 must be 12 base digits (13 with checksum)." };
+    }
+    case "EAN8": {
+      if (!DIGITS_ONLY.test(trimmed)) {
+        return { variant: "error", message: "EAN-8 accepts digits only." };
+      }
+      if (trimmed.length < 7) {
+        return {
+          variant: "error",
+          message: `EAN-8 needs 7 digits, we auto-calc the checksum. Add ${7 - trimmed.length} more.`,
+        };
+      }
+      if (trimmed.length === 7) {
+        return { variant: "info", message: "7 digits ready; we will add the checksum digit." };
+      }
+      if (trimmed.length === 8) {
+        return { variant: "info", message: "Using your provided checksum (8 digits total)." };
+      }
+      return { variant: "error", message: "EAN-8 must be 7 base digits (8 with checksum)." };
+    }
+    case "UPC": {
+      if (!DIGITS_ONLY.test(trimmed)) {
+        return { variant: "error", message: "UPC accepts digits only." };
+      }
+      if (trimmed.length < 11) {
+        return {
+          variant: "error",
+          message: `UPC-A needs 11 digits, we add the 12th checksum. Add ${11 - trimmed.length} more.`,
+        };
+      }
+      if (trimmed.length === 11) {
+        return { variant: "info", message: "11 digits set; we will append the checksum to make 12." };
+      }
+      if (trimmed.length === 12) {
+        return { variant: "info", message: "Using your provided checksum (12 digits total)." };
+      }
+      return { variant: "error", message: "UPC-A must be 11 base digits (12 with checksum)." };
+    }
+    case "CODE128C": {
+      if (!DIGITS_ONLY.test(trimmed)) {
+        return { variant: "error", message: "CODE128C uses digits only." };
+      }
+      if (trimmed.length % 2 !== 0) {
+        return { variant: "error", message: "CODE128C encodes digits in pairs - add one more digit." };
+      }
+      return { variant: "info", message: "Even number of digits detected - good for CODE128C." };
+    }
+    case "ITF": {
+      if (!DIGITS_ONLY.test(trimmed)) {
+        return { variant: "error", message: "ITF is numeric only." };
+      }
+      if (trimmed.length % 2 !== 0) {
+        return { variant: "error", message: "ITF needs an even number of digits for pairing." };
+      }
+      return { variant: "info", message: "Even-length numeric value ready for ITF." };
+    }
+    case "ITF14": {
+      if (!DIGITS_ONLY.test(trimmed)) {
+        return { variant: "error", message: "ITF-14 accepts digits only." };
+      }
+      if (trimmed.length === 13) {
+        return { variant: "info", message: "13 digits set; we will append the ITF-14 checksum." };
+      }
+      if (trimmed.length === 14) {
+        return { variant: "info", message: "Using your provided checksum (14 digits total)." };
+      }
+      return { variant: "error", message: "ITF-14 needs 13 digits (or 14 if you include the checksum)." };
+    }
+    case "CODE39": {
+      if (!CODE39_ALLOWED.test(normalized)) {
+        return {
+          variant: "error",
+          message: "CODE39 allows A-Z, 0-9, spaces, and - . $ / + % characters only.",
+        };
+      }
+      return { variant: "info", message: "Looks good for CODE39 characters." };
+    }
+    case "MSI":
+    case "MSI10":
+    case "MSI11":
+    case "MSI1010":
+    case "MSI1110": {
+      if (!DIGITS_ONLY.test(trimmed)) {
+        return { variant: "error", message: "MSI variants are numeric only; we handle checksums automatically." };
+      }
+      return { variant: "info", message: "Numeric value set; MSI checksums will be added automatically." };
+    }
+    case "pharmacode": {
+      if (!DIGITS_ONLY.test(trimmed)) {
+        return { variant: "error", message: "Pharmacode accepts numeric values only." };
+      }
+      return { variant: "info", message: "Numeric pharmacode value ready to encode." };
+    }
+    case "codabar": {
+      if (!CODABAR_ALLOWED.test(trimmed)) {
+        return {
+          variant: "error",
+          message: "Codabar should start/end with A-D and use digits or - $ : / . + inside.",
+        };
+      }
+      return { variant: "info", message: "Codabar start/stop and digits look valid." };
+    }
+    default:
+      return { variant: "info", message: "This format accepts the current value." };
+  }
+};
 
 export const BarcodeGenerator = () => {
   const [settings, setSettings] =
     React.useState<BarcodeSettings>(defaultBarcodeSettings);
   const svgRef = React.useRef<SVGSVGElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  const validation = React.useMemo(
+    () => validateBarcodeValue(settings.format, settings.value),
+    [settings.format, settings.value]
+  );
+  const formatTip = React.useMemo(() => FORMAT_TIPS[settings.format], [settings.format]);
 
   const updateSettings = <K extends keyof BarcodeSettings>(
     key: K,
@@ -59,6 +226,10 @@ export const BarcodeGenerator = () => {
 
   const generateBarcode = React.useCallback(() => {
     if (!svgRef.current || !settings.value) return;
+    if (validation.variant === "error") {
+      svgRef.current.innerHTML = "";
+      return;
+    }
 
     try {
       const fontStyle = [
@@ -81,7 +252,7 @@ export const BarcodeGenerator = () => {
         fontOptions: fontStyle || "",
         textAlign: settings.textAlignment.position,
         textMargin: settings.textAlignment.margin,
-        valid: (valid) => {},
+        valid: (valid) => { },
       });
 
       // Post-process SVG text elements to apply text styling
@@ -94,6 +265,13 @@ export const BarcodeGenerator = () => {
           // ensure font and size match settings
           if (settings.font) t.style.fontFamily = settings.font;
           t.style.fontSize = `${settings.textSize.fontSize}px`;
+          t.style.fontWeight = settings.textStyle.bold ? "bold" : "normal";
+          t.style.fontStyle = settings.textStyle.italic ? "italic" : "normal";
+
+          const decorations = [];
+          if (settings.textStyle.underline) decorations.push("underline");
+          if (settings.textStyle.strikethrough) decorations.push("line-through");
+          t.style.textDecoration = decorations.length ? decorations.join(" ") : "none";
 
           // ensure alignment
           const pos = settings.textAlignment.position;
@@ -113,7 +291,7 @@ export const BarcodeGenerator = () => {
         // Fallback generation failed - suppressed
       }
     }
-  }, [settings]);
+  }, [settings, validation.variant]);
 
   React.useEffect(() => {
     generateBarcode();
@@ -244,24 +422,24 @@ export const BarcodeGenerator = () => {
         if (!blob) return;
 
         const file = new File([blob], "barcode.png", { type: "image/png" });
-      if (
-        navigator.share &&
-        (typeof navigator.canShare !== "function" || navigator.canShare({ files: [file] }))
-      ) {
-        try {
-          await navigator.share({ files: [file], title: "Barcode" });
-          toast.success("Shared successfully!");
-        } catch (err) {
-          if ((err as Error).name !== "AbortError") {
-            toast.error("Sharing failed");
+        if (
+          navigator.share &&
+          (typeof navigator.canShare !== "function" || navigator.canShare({ files: [file] }))
+        ) {
+          try {
+            await navigator.share({ files: [file], title: "Barcode" });
+            toast.success("Shared successfully!");
+          } catch (err) {
+            if ((err as Error).name !== "AbortError") {
+              toast.error("Sharing failed");
+            }
           }
+        } else {
+          const blobUrl = URL.createObjectURL(blob);
+          await navigator.clipboard.writeText(blobUrl);
+          toast.success("Link copied to clipboard!");
         }
-      } else {
-        const blobUrl = URL.createObjectURL(blob);
-        await navigator.clipboard.writeText(blobUrl);
-        toast.success("Link copied to clipboard!");
-      }
-      URL.revokeObjectURL(url);
+        URL.revokeObjectURL(url);
       }, "image/png");
     };
 
@@ -336,7 +514,7 @@ export const BarcodeGenerator = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          
+
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Button variant="outline" size="sm">
@@ -354,7 +532,7 @@ export const BarcodeGenerator = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          
+
           <Button variant="outline" size="sm" onClick={handleShare}>
             <Share2 className="size-4" /> Share
           </Button>
@@ -370,14 +548,40 @@ export const BarcodeGenerator = () => {
           </h3>
           <div className="space-y-3">
             <div>
-              <Label htmlFor="barcode-value">Value</Label>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="barcode-value">Value</Label>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 p-0 text-muted-foreground"
+                      aria-label="Value guidance"
+                    >
+                      <Info className="size-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" align="start" className="max-w-sm text-left">
+                    <p className="text-xs leading-relaxed">{formatTip}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
               <Input
                 id="barcode-value"
                 value={settings.value}
                 onChange={(e) => updateSettings("value", e.target.value)}
                 placeholder="Enter barcode value..."
-                className="mt-1.5"
+                aria-invalid={validation.variant === "error"}
+                className={`mt-1.5 ${validation.variant === "error" ? "border-destructive focus-visible:ring-destructive/20" : ""}`}
               />
+              {validation.message && (
+                <p
+                  className={`text-xs mt-1 ${validation.variant === "error" ? "text-destructive" : "text-muted-foreground"
+                    }`}
+                >
+                  {validation.message}
+                </p>
+              )}
             </div>
             <div>
               <Label>Format</Label>
@@ -538,9 +742,35 @@ export const BarcodeGenerator = () => {
                       >
                         <Italic className="size-4" />
                       </Button>
+                      <Button
+                        variant={settings.textStyle.underline ? "default" : "outline"}
+                        size="icon"
+                        onClick={() =>
+                          updateSettings("textStyle", {
+                            ...settings.textStyle,
+                            underline: !settings.textStyle.underline,
+                          })
+                        }
+                        aria-label="Underline"
+                      >
+                        <Underline className="size-4" />
+                      </Button>
+                      <Button
+                        variant={settings.textStyle.strikethrough ? "default" : "outline"}
+                        size="icon"
+                        onClick={() =>
+                          updateSettings("textStyle", {
+                            ...settings.textStyle,
+                            strikethrough: !settings.textStyle.strikethrough,
+                          })
+                        }
+                        aria-label="Strikethrough"
+                      >
+                        <Strikethrough className="size-4" />
+                      </Button>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label className="text-xs text-muted-foreground">Text Alignment</Label>
                     <div className="flex gap-1">
