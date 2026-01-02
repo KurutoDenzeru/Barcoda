@@ -177,5 +177,5 @@ export const ERROR_CORRECTION_LEVELS: {
   { value: "L", label: "Low", percentage: "~7%" },
   { value: "M", label: "Medium", percentage: "~15%" },
   { value: "Q", label: "Quartile", percentage: "~25%" },
-  { value: "H", label: "High", percentage: "~30%" },
+  { value: "H", label: "High (Recommended)", percentage: "~30%" },
 ];
