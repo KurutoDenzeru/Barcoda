@@ -1,0 +1,88 @@
+"use client";
+
+import * as React from "react";
+import { Card } from "@/components/ui/card";
+import { BarcodeGenerator } from "./barcode-generator";
+import { QRCodeGenerator } from "./qr-generator";
+import { CodeScanner } from "./code-scanner";
+import { Barcode, QrCode, Scan, Sparkles } from "lucide-react";
+import { FloatingDock } from "@/components/floating-dock";
+
+export const QRBarcodeGenerator = () => {
+  const [activeTab, setActiveTab] = React.useState("barcode");
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "barcode":
+        return (
+          <Card className="p-4 sm:p-6 border-border/50">
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold flex items-center gap-2">
+                <Barcode className="size-5 text-primary" />
+                Barcode Generator
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Create customized barcodes in various formats
+              </p>
+            </div>
+            <BarcodeGenerator />
+          </Card>
+        );
+      case "qrcode":
+        return (
+          <Card className="p-4 sm:p-6 border-border/50">
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold flex items-center gap-2">
+                <QrCode className="size-5 text-primary" />
+                QR Code Generator
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Design stunning QR codes with custom styles and logos
+              </p>
+            </div>
+            <QRCodeGenerator />
+          </Card>
+        );
+      case "scan":
+        return (
+          <Card className="p-4 sm:p-6 border-border/50">
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold flex items-center gap-2">
+                <Scan className="size-5 text-primary" />
+                Code Scanner
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Scan barcodes and QR codes using your camera or upload an image
+              </p>
+            </div>
+            <CodeScanner />
+          </Card>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background pb-24 md:pb-8 pt-12 md:pt-24">
+      {/* Floating Dock Navigation */}
+      <FloatingDock activeTab={activeTab} onTabChange={setActiveTab} />
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {renderContent()}
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-border/50 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <p className="text-center text-xs text-muted-foreground">
+            QR & Barcode Studio • Generate, customize, and scan codes with ease
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default QRBarcodeGenerator;
