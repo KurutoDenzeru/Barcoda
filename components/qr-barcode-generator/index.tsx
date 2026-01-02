@@ -64,17 +64,19 @@ export const QRBarcodeGenerator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24 md:pb-8 pt-12 md:pt-24">
+    <div className="min-h-screen bg-background pb-24 md:pb-8 pt-12 md:pt-24 flex flex-col">
       {/* Floating Dock Navigation */}
       <FloatingDock activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {renderContent()}
+      <main className="flex-1 flex items-center justify-center w-full">
+        <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 mx-auto flex justify-center">
+          {renderContent()}
+        </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 mt-auto">
+      <footer className="mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <p className="text-center text-xs text-muted-foreground">
             QR & Barcode Studio • Generate, customize, and scan codes with ease
