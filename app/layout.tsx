@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QR & Barcode Studio",
+  title: "Barcoda",
   description: "Generate, customize, and scan QR & Barcodes",
   icons: {
     icon: "/brand.webp",

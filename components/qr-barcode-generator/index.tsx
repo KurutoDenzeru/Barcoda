@@ -5,11 +5,12 @@ import { Card } from "@/components/ui/card";
 import { BarcodeGenerator } from "./barcode-generator";
 import { QRCodeGenerator } from "./qr-generator";
 import { CodeScanner } from "./code-scanner";
-import { Barcode, QrCode, Scan, Sparkles } from "lucide-react";
+import { Barcode, QrCode, Scan, Sparkles, Linkedin, Instagram, Github } from "lucide-react";
 import { FloatingDock } from "@/components/floating-dock";
 
 export const QRBarcodeGenerator = () => {
   const [activeTab, setActiveTab] = React.useState("barcode");
+  const currentYear = new Date().getFullYear();
 
   const renderContent = () => {
     switch (activeTab) {
@@ -78,9 +79,41 @@ export const QRBarcodeGenerator = () => {
       {/* Footer */}
       <footer className="mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <p className="text-center text-xs text-muted-foreground">
-            QR & Barcode Studio • Generate, customize, and scan codes with ease
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-center sm:text-left text-xs text-muted-foreground">
+              © {currentYear} Barcoda. KurutoDenzeru. All rights reserved.
+            </p>
+
+            <div className="flex items-center gap-3">
+              <a
+                href="https://www.linkedin.com/in/kurtcalacday/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Linkedin className="size-5" />
+              </a>
+              <a
+                href="https://www.instagram.com/krtclcdy/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Instagram className="size-5" />
+              </a>
+              <a
+                href="https://github.com/KurutoDenzeru"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Github className="size-5" />
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
