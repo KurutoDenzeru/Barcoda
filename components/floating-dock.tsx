@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Barcode, QrCode, Scan, Sun, Moon, Monitor } from "lucide-react";
+import { Barcode, QrCode, Scan, Sun, Moon } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
@@ -21,9 +21,14 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
     { value: "scan", label: "Scan", icon: Scan },
   ];
 
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
 
-  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+  const toggleTheme = () => {
+    if (typeof window === "undefined") return;
+    const root = document.documentElement;
+    const isDark = root.classList.contains("dark") || root.getAttribute("data-theme") === "dark";
+    setTheme(isDark ? "light" : "dark");
+  };
 
   return (
     <>
@@ -94,13 +99,8 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                 )}
                 aria-label="Toggle theme"
               >
-                {theme === "light" ? (
-                  <Sun className="size-5" />
-                ) : theme === "dark" ? (
-                  <Moon className="size-5" />
-                ) : (
-                  <Monitor className="size-5" />
-                )}
+                <Sun className="size-5 block dark:hidden" />
+                <Moon className="size-5 hidden dark:block" />
               </button>
             </TooltipTrigger>
             <TooltipContent>Toggle theme</TooltipContent>
@@ -173,13 +173,8 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                 )}
                 aria-label="Toggle theme"
               >
-                {theme === "light" ? (
-                  <Sun className="size-5" />
-                ) : theme === "dark" ? (
-                  <Moon className="size-5" />
-                ) : (
-                  <Monitor className="size-5" />
-                )}
+                <Sun className="size-5 block dark:hidden" />
+                <Moon className="size-5 hidden dark:block" />
               </button>
             </TooltipTrigger>
             <TooltipContent>Toggle theme</TooltipContent>
