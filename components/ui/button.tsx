@@ -17,7 +17,7 @@ const buttonVariants = cva(
         // Chip style for font family buttons (unselected)
         chip: "rounded-xl border border-border bg-muted/60 hover:bg-muted/50 text-muted-foreground hover:text-foreground",
         // Active chip state (selected)
-        chipActive: "rounded-xl bg-white text-foreground shadow-sm border border-border/20",
+        chipActive: "rounded-xl bg-white text-foreground shadow-sm border border-border/20 dark:bg-muted/50 dark:text-foreground dark:border-border/30",  
       },
       size: {
         default: "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
