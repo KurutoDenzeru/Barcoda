@@ -207,7 +207,7 @@ export const QRCodeGenerator = () => {
       {/* Preview Section */}
       <div className="order-1 lg:order-2 flex flex-col items-center justify-center p-6 bg-muted/30 rounded-2xl border border-border/50 min-h-75">
         <div
-          className="bg-white rounded-xl p-4 shadow-sm overflow-auto max-w-full w-full max-w-lg"
+          className="bg-white rounded-xl p-4 shadow-sm overflow-auto"
           style={{ borderRadius: `${settings.borderRadius}px` }}
         >
           <div ref={qrRef} />
