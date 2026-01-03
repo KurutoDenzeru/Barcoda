@@ -93,7 +93,6 @@ app/                        # Next.js App Router pages & layouts
     qr-generator.tsx        # QR generator using qr-code-styling (styling, logos, export)
     code-scanner.tsx        # Scanner using html5-qrcode (camera & image scan)
     types.ts                # Types, defaults, and settings
-  ui/                       # shadcn/ui primitives (buttons, inputs, cards, etc.)
 lib/                        # Utilities and helpers
   utils.ts                  # Helper functions
 ```
