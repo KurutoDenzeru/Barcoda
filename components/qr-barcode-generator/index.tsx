@@ -128,7 +128,7 @@ export const QRBarcodeGenerator = () => {
                 <Instagram className="size-5" />
               </a>
               <a
-                href="https://github.com/KurutoDenzeru"
+                href="https://github.com/KurutoDenzeru/Barcoda"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
