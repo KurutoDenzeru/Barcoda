@@ -1,8 +1,8 @@
 ![Barcoda](/public/OpenGraph.webp)
 
-# Barcoda - Barcode Generator
+# Barcoda - Barcode + QR Generator & Code Scanner
 
-🤳🏻 Modern barcode generator that combines sleek design with seamless functionality. Built on Next.js, Tailwind CSS, and Shadcn UI for effortless customization. Barcoda allows you to create, customize, and download barcodes in various formats, completely free of charge.
+🤳🏻 Modern barcode + QR code generator with built-in code scanner, combining sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.
 
 ---
 
