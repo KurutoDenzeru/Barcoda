@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { Barcode, QrCode, Scan, Sun, Moon } from "lucide-react";
-import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -43,20 +43,25 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                 <React.Fragment key={tab.value}>
                   <Tooltip>
                     <TooltipTrigger>
-                      <Link href="/" className="flex items-center justify-center gap-2 px-2 py-1 rounded-xl hover:scale-105 hover:bg-muted/50 hover:text-foreground transition-transform">
+                      <button
+                        type="button"
+                        onClick={() => onTabChange("barcode")}
+                        className="flex items-center justify-center gap-2 px-2 rounded-xl hover:scale-105 hover:bg-muted/50 hover:text-foreground transition-transform cursor-pointer"
+                        aria-label="Go to Barcode"
+                      >
                         <div className={cn(
-                          "flex items-center justify-center size-11 rounded-xl transition-all duration-300",
+                          "flex items-center justify-center size-10 rounded-xl transition-all duration-300",
                           "text-muted-foreground"
                         )}>
-                          <Image src="/brand.webp" alt="Barcoda" width={20} height={20} className="size-9 rounded-lg" />
+                          <Image src="/brand.webp" alt="Barcoda" width={20} height={20} className="size-8 rounded-lg" />
                         </div>
                         <span className="hidden md:inline text-sm font-semibold select-none">Barcoda</span>
-                      </Link>
+                      </button>
                     </TooltipTrigger>
                     <TooltipContent>Home</TooltipContent>
                   </Tooltip>
 
-                  <div className="h-8 w-px bg-border/40 mx-1" />
+                  <Separator orientation="vertical" className="mx-1" />
                 </React.Fragment>
               );
             }
@@ -67,7 +72,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                   <button
                     onClick={() => onTabChange(tab.value)}
                     className={cn(
-                      "group relative flex items-center justify-center size-10 rounded-xl transition-all duration-300 ease-out",
+                      "group relative flex items-center justify-center size-10 rounded-xl transition-all duration-300 ease-out cursor-pointer",
                       "hover:scale-110 active:scale-95",
                       activeTab === tab.value
                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
@@ -86,7 +91,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
             );
           })}
 
-          <div className="h-8 w-px bg-border/40 mx-1" />
+          <Separator orientation="vertical" className="mx-1" />
 
           {/* Theme toggle - simple click to switch between light/dark */}
           <Tooltip>
@@ -94,7 +99,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
               <button
                 onClick={toggleTheme}
                 className={cn(
-                  "flex items-center justify-center size-10 rounded-xl transition-all duration-300",
+                  "flex items-center justify-center size-10 rounded-xl transition-all duration-300 cursor-pointer",
                   "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 )}
                 aria-label="Toggle theme"
@@ -119,16 +124,21 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                 <React.Fragment key={tab.value}>
                   <Tooltip>
                     <TooltipTrigger>
-                      <Link href="/" className="flex items-center justify-center px-1 py-1 rounded-xl hover:scale-105 hover:bg-muted/50 hover:text-foreground transition-transform">
+                      <button
+                        type="button"
+                        onClick={() => onTabChange("barcode")}
+                        className="flex items-center justify-center px-1 py-1 rounded-xl hover:scale-105 hover:bg-muted/50 hover:text-foreground transition-transform cursor-pointer"
+                        aria-label="Go to Barcode"
+                      >
                         <div className="flex items-center justify-center size-11 rounded-xl">
                           <Image src="/brand.webp" alt="Barcoda" width={24} height={24} className="size-9 rounded-lg" />
                         </div>
-                      </Link>
+                      </button>
                     </TooltipTrigger>
                     <TooltipContent>Home</TooltipContent>
                   </Tooltip>
 
-                  <div className="h-8 w-px bg-border/40 mr-2" />
+                  <Separator orientation="vertical" className="mr-2" />
                 </React.Fragment>
               );
             }
@@ -139,7 +149,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                   <button
                     onClick={() => onTabChange(tab.value)}
                     className={cn(
-                      "relative flex items-center justify-center rounded-xl transition-all duration-300",
+                      "relative flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer",
                       "active:scale-95"
                     )}
                     aria-label={tab.label}
@@ -161,14 +171,14 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
             );
           })}
 
-          <div className="h-12 w-px bg-border/40" />
+          <Separator orientation="vertical" />
 
           <Tooltip>
             <TooltipTrigger>
               <button
                 onClick={toggleTheme}
                 className={cn(
-                  "flex items-center justify-center size-11 rounded-xl transition-all duration-300",
+                  "flex items-center justify-center size-11 rounded-xl transition-all duration-300 cursor-pointer",
                   "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 )}
                 aria-label="Toggle theme"

@@ -9,7 +9,31 @@ import { Barcode, QrCode, Scan, Sparkles, Linkedin, Instagram, Github } from "lu
 import { FloatingDock } from "@/components/floating-dock";
 
 export const QRBarcodeGenerator = () => {
-  const [activeTab, setActiveTab] = React.useState("barcode");
+  const [activeTab, setActiveTab] = React.useState<string>("barcode");
+
+  // Persist and restore the active tab across page refreshes
+  const VALID_TABS = ["barcode", "qrcode", "scan"] as const;
+
+  React.useEffect(() => {
+    try {
+      const stored = typeof window !== "undefined" ? localStorage.getItem("barcoda_activeTab") : null;
+      if (stored && (VALID_TABS as readonly string[]).includes(stored)) {
+        setActiveTab(stored);
+      }
+    } catch (err) {
+      // ignore localStorage errors
+    }
+  }, []);
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    try {
+      localStorage.setItem("barcoda_activeTab", tab);
+    } catch (err) {
+      // ignore localStorage errors
+    }
+  };
+
   const currentYear = new Date().getFullYear();
 
   const renderContent = () => {
@@ -67,7 +91,7 @@ export const QRBarcodeGenerator = () => {
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-8 pt-12 md:pt-24 flex flex-col">
       {/* Floating Dock Navigation */}
-      <FloatingDock activeTab={activeTab} onTabChange={setActiveTab} />
+      <FloatingDock activeTab={activeTab} onTabChange={handleTabChange} />
 
       {/* Main Content */}
       <main className="flex-1 flex items-center justify-center w-full">
