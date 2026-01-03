@@ -21,7 +21,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://barcoda.vercel.app/
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Barcoda - QR Code & Barcode Generator and Scanner",
+    default: "Barcoda - QR Code & Barcode Generator & Scanner",
     template: "%s | Barcoda",
   },
   description: "🤳🏻 Modern barcode + QR code generator with built-in code scanner, combining sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.",
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "Barcoda",
-    title: "Barcoda - QR Code & Barcode Generator and Scanner",
+    title: "Barcoda - QR Code & Barcode Generator & Scanner",
     description: "🤳🏻 Modern barcode + QR code generator with built-in code scanner, combining sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.",
     images: [
       {
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Barcoda - QR Code & Barcode Generator and Scanner",
+    title: "Barcoda - QR Code & Barcode Generator & Scanner",
     description: "🤳🏻 Modern barcode + QR code generator with built-in code scanner, combining sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.",
     images: ["/OpenGraph.webp"],
     creator: "@barcoda",
