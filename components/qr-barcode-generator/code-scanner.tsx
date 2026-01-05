@@ -14,6 +14,7 @@ import {
   ScanLine,
 } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface ScanResult {
   text: string;
@@ -24,6 +25,7 @@ interface ScanResult {
 export const CodeScanner = () => {
   const [scanResult, setScanResult] = React.useState<ScanResult | null>(null);
   const [error, setError] = React.useState<string | null>(null);
+  const [isDragging, setIsDragging] = React.useState(false);
   const scannerRef = React.useRef<Html5Qrcode | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -123,23 +125,38 @@ export const CodeScanner = () => {
           </Label>
 
           {/* Upload Info */}
-           <Card
-             className="p-6 border border-dashed border-muted/50 cursor-pointer flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-             role="button"
-             tabIndex={0}
-             onClick={() => fileInputRef.current?.click()}
-             onKeyDown={(e) => {
-               if (e.key === "Enter" || e.key === " ") fileInputRef.current?.click();
-             }}
-             onDragEnter={(e) => e.preventDefault()}
-             onDragOver={(e) => e.preventDefault()}
-             onDragLeave={() => {}}
-             onDrop={(e) => {
-               e.preventDefault();
-               const file = e.dataTransfer?.files?.[0];
-               if (file) handleFileUpload(file);
-             }}
-           >
+          <Card
+            className={cn(
+              // remove Card's base ring so our dashed border is not overlapped
+              "ring-0 p-6 border-[2.5px] border-dashed border-muted cursor-pointer flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition duration-150 ease-in-out transform",
+              isDragging
+                ? "border-primary/80 bg-primary/5 shadow-lg scale-105 ring-0"
+                : "hover:border-primary/80 hover:bg-primary/5 hover:shadow-sm"
+            )}
+            role="button"
+            tabIndex={0}
+            onClick={() => fileInputRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") fileInputRef.current?.click();
+            }}
+            onDragEnter={(e) => {
+              e.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragLeave={() => {
+              setIsDragging(false);
+            }}
+            onDrop={(e) => {
+              e.preventDefault();
+              setIsDragging(false);
+              const file = e.dataTransfer?.files?.[0];
+              if (file) handleFileUpload(file);
+            }}
+          >
             <div className="flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mb-4">
                 <Upload className="size-8 text-muted-foreground" />
