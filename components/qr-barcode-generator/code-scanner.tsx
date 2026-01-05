@@ -98,18 +98,14 @@ export const CodeScanner = () => {
 
   return (
     <div className="space-y-6">
+      {/* <Label className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+        Code Scanner
+      </Label> */}
+
       {/* Scanner Area */}
       <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Upload Section */}
         <div className="space-y-4">
-          <Button
-            variant="outline"
-            onClick={() => fileInputRef.current?.click()}
-            className="w-full"
-          >
-            <Upload className="size-4" />
-            Upload Image
-          </Button>
 
           <Input
             ref={fileInputRef}
@@ -122,15 +118,35 @@ export const CodeScanner = () => {
             className="hidden"
           />
 
+          <Label className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+            Upload Image
+          </Label>
+
           {/* Upload Info */}
-          <Card className="p-6 border-dashed">
+           <Card
+             className="p-6 border border-dashed border-muted/50 cursor-pointer flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+             role="button"
+             tabIndex={0}
+             onClick={() => fileInputRef.current?.click()}
+             onKeyDown={(e) => {
+               if (e.key === "Enter" || e.key === " ") fileInputRef.current?.click();
+             }}
+             onDragEnter={(e) => e.preventDefault()}
+             onDragOver={(e) => e.preventDefault()}
+             onDragLeave={() => {}}
+             onDrop={(e) => {
+               e.preventDefault();
+               const file = e.dataTransfer?.files?.[0];
+               if (file) handleFileUpload(file);
+             }}
+           >
             <div className="flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mb-4">
-                <ScanLine className="size-8 text-muted-foreground" />
+                <Upload className="size-8 text-muted-foreground" />
               </div>
               <h4 className="font-medium mb-1">Upload Image</h4>
               <p className="text-sm text-muted-foreground">
-                Upload an image containing a barcode or QR code to scan
+                Drag and drop an image here, or click anywhere in this box to upload
               </p>
             </div>
           </Card>
