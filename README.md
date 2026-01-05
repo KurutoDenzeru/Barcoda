@@ -1,31 +1,29 @@
 ![Barcoda](/public/OpenGraph.webp)
 
-# Barcoda - Barcode + QR Generator & Code Scanner
+# 📊 Barcoda - Barcode + QR Generator & Code Scanner
 
-🤳🏻 Modern barcode + QR code generator with built-in code scanner, combining sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.
+📊 Modern barcode + QR code generator with built-in code scanner, combining sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.
 
 ---
 
-## 🚀 Deploy your own
+## ☁️ Deploy your own
 
 [![Deploy with Vercel](_deploy_vercel.svg)](https://vercel.com/new/clone?repository-url=https://github.com/KurutoDenzeru/Barcoda)  [![Deploy with Netlify](_deploy_netlify.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/KurutoDenzeru/Barcoda)
 
 ---
 
-## ✨ Features — At a glance
+## ✨ Features
 
 - **Real-time Preview** — Instant visual feedback while editing.
 - **Multi-format Support** — CODE128, EAN13, UPC, CODE39, and more.
 - **Flexible Customization** — Size, margin, colors, text, font, and alignment.
 - **Export Options** — PNG, JPEG, WebP, SVG (including raw SVG export).
 - **QR Styling** — Dots, corners, rounded shapes, logos, and error correction.
-- **Scan & Upload** — Camera scanning and image upload support via `html5-qrcode`.
+- **Scan & Upload** — Scanning and image upload are supported via `html5-qrcode`.
 - **Responsive & Accessible UI** — Built with Tailwind CSS and shadcn/ui; supports dark/light mode.
 - **Free & Open Source** — MIT licensed; contributions welcome.
 
----
-
-## 🛠️ Tech Stack
+## 🧱 Tech Stack
 
 - [Next.js](https://nextjs.org/): React framework for building performant web applications.
 - [Tailwind CSS](https://tailwindcss.com/): Utility-first CSS framework for rapid UI development.
@@ -34,41 +32,18 @@
 - [html5-qrcode](https://github.com/mebjas/html5-qrcode): Lightweight camera + image scanner for QR codes and barcodes (used for Code Scanner).
 - [qr-code-styling](https://github.com/kozakdenys/qr-code-styling): Highly customizable QR generator with styling, logos, and multiple export formats.
 
----
+## ⚡ Getting Started
 
-## 🚀 Getting Started
-
-### 1. Clone the repository
+Clone the repo, install deps, and boot the dev server:
 
 ```bash
 git clone https://github.com/KurutoDenzeru/Barcoda.git
 cd Barcoda
-```
-
-### 2. Install dependencies
-
-```bash
-# With npm
-yarn install
-# or
-npm install
-# or
 bun install
-```
-
-### 3. Run the development server
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
 bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
-
----
 
 ## 📦 Build for Production
 
@@ -77,9 +52,7 @@ npm run build
 npm start
 ```
 
----
-
-## ⚙️ Configuration
+## 🗂️ Configuration
 
 The editor is componentized under `src/components`. Key areas to customize are:
 
@@ -97,14 +70,16 @@ lib/                        # Utilities and helpers
   utils.ts                  # Helper functions
 ```
 
-## Contributing
+## 🤝🏻 Contributing
 
-Contributions are always welcome!
+Contributions are always welcome, whether you’re fixing bugs, improving docs, or shipping new features that make the project better for everyone.
 
-See `Contributing.md` for ways to get started.
+Check out [Contributing.md](Contributing) to learn how to get started and follow the recommended workflow.
 
 <!-- Please adhere to this project's `Code of Conduct`. -->
 
-## 📄 License
+## ⚖️ License
 
-[MIT](LICENSE)
+This project is released under the MIT License, giving you the freedom to use, modify, and distribute the code with minimal restrictions.
+
+For the full legal text, see the [MIT](LICENSE) file.
