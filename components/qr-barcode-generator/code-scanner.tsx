@@ -38,6 +38,21 @@ export const CodeScanner = () => {
     setScanResult(null);
 
     try {
+      // Try to enumerate cameras and pick a back-facing camera when possible.
+      let cameraId: string | null = null;
+      try {
+        const cameras = await Html5Qrcode.getCameras();
+        if (cameras && cameras.length) {
+          const backCamera = cameras.find((c) =>
+            /back|rear|environment|main|wide/i.test(c.label)
+          );
+          cameraId = backCamera ? backCamera.id : cameras[0].id;
+        }
+      } catch (err) {
+        // getCameras may fail in some in-app browsers / privacy restricted contexts.
+        console.warn("Could not enumerate cameras:", err);
+      }
+
       if (!scannerRef.current) {
         scannerRef.current = new Html5Qrcode("qr-reader", {
           formatsToSupport: [
@@ -55,8 +70,11 @@ export const CodeScanner = () => {
         });
       }
 
+      // Use deviceId when available to avoid opening the system camera app in some in-app browsers.
+      const cameraConfig: string | { facingMode: "environment" } = cameraId || { facingMode: "environment" };
+
       await scannerRef.current.start(
-        { facingMode: "environment" },
+        cameraConfig,
         {
           fps: 10,
           qrbox: { width: 250, height: 250 },
@@ -68,10 +86,37 @@ export const CodeScanner = () => {
       );
 
       setIsScanning(true);
-    } catch (err) {
+      // Ensure the created video/canvas elements fill the scanner container.
+      // Some browsers create video elements without a set height; force it to show.
+      try {
+        ensureVideoIsVisible();
+        // If the video node doesn't render within 1.5s, show a helpful error and toast.
+        setTimeout(() => {
+          const container = document.getElementById("qr-reader");
+          const video = container?.querySelector("video");
+          if (!video) {
+            setError(
+              "Camera feed didn't appear in the page. Try reloading or opening this page in a standard browser (Safari/Chrome)."
+            );
+            toast.error("Camera feed not visible");
+          }
+        }, 1500);
+      } catch (e) {
+        console.warn("Could not apply video styles:", e);
+      }
+    } catch (err: any) {
       console.error("Camera error:", err);
-      setError("Failed to access camera. Please ensure camera permissions are granted.");
-      toast.error("Camera access denied");
+      const msg = err?.message ?? String(err);
+      if (/NotAllowedError|PermissionDenied|permission/i.test(msg)) {
+        setError("Failed to access camera. Please ensure camera permissions are granted and that your browser supports embedded camera access.");
+        toast.error("Camera access denied");
+      } else if (/NotFoundError|DevicesNotFoundError|No camera/i.test(msg)) {
+        setError("No camera found on this device.");
+        toast.error("No camera found");
+      } else {
+        setError("Unable to start embedded camera. Some in-app browsers open a native camera app instead of embedding — try opening this page in Safari or Chrome.");
+        toast.error("Unable to start camera");
+      }
     }
   };
 
@@ -79,7 +124,20 @@ export const CodeScanner = () => {
     if (scannerRef.current && isScanning) {
       try {
         await scannerRef.current.stop();
+        // Clear the DOM elements added by Html5Qrcode to free resources.
+        try {
+          scannerRef.current.clear();
+        } catch (e) {
+          // ignore
+        }
+        scannerRef.current = null;
         setIsScanning(false);
+        // Reset any video/canvas styles we applied
+        try {
+          resetVideoStyles();
+        } catch (e) {
+          // ignore
+        }
       } catch (err) {
         console.error("Error stopping camera:", err);
       }
@@ -179,10 +237,68 @@ export const CodeScanner = () => {
     setError(null);
   };
 
+  // Ensure the video/canvas inside the qr-reader container fills the area.
+  const ensureVideoIsVisible = () => {
+    const container = document.getElementById("qr-reader") as HTMLElement | null;
+    if (!container) return;
+    // Add a tailwind height class so the video has space.
+    container.classList.add("h-64");
+    const video = container.querySelector("video") as HTMLVideoElement | null;
+    if (video) {
+      video.style.width = "100%";
+      video.style.height = "100%";
+      video.style.objectFit = "cover";
+      video.muted = true;
+      // ensure mobile autoplay works
+      try {
+        video.playsInline = true;
+      } catch (e) {}
+      video.autoplay = true;
+      video.play().catch(() => {});
+    }
+    const canvas = container.querySelector("canvas") as HTMLCanvasElement | null;
+    if (canvas) {
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+    }
+  };
+
+  const resetVideoStyles = () => {
+    const container = document.getElementById("qr-reader") as HTMLElement | null;
+    if (!container) return;
+    container.classList.remove("h-64");
+    const video = container.querySelector("video") as HTMLVideoElement | null;
+    if (video) {
+      try {
+        video.pause();
+      } catch (e) {}
+      video.style.width = "";
+      video.style.height = "";
+      video.style.objectFit = "";
+    }
+    const canvas = container.querySelector("canvas") as HTMLCanvasElement | null;
+    if (canvas) {
+      canvas.style.width = "";
+      canvas.style.height = "";
+    }
+  };
+
   React.useEffect(() => {
     return () => {
       if (scannerRef.current && isScanning) {
-        scannerRef.current.stop().catch(console.error);
+        scannerRef.current
+          .stop()
+          .then(() => {
+            try {
+              scannerRef.current?.clear();
+            } catch (e) {}
+            // remove any video styling applied
+            resetVideoStyles();
+          })
+          .catch(console.error);
+      } else {
+        // ensure any applied styles are removed on unmount too
+        resetVideoStyles();
       }
     };
   }, [isScanning]);
@@ -249,10 +365,6 @@ export const CodeScanner = () => {
                 <p className="text-muted-foreground text-sm mb-4">
                   Use your camera to scan or drag & drop an image
                 </p>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <ImageIcon className="size-4" />
-                  <span>Supports QR codes, barcodes (CODE128, EAN, UPC, etc.)</span>
-                </div>
               </div>
             )}
           </div>
