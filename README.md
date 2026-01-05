@@ -2,7 +2,7 @@
 
 # 📊 Barcoda - Barcode + QR Generator & Code Scanner
 
-📊 Modern barcode + QR code generator with built-in code scanner, combining sleek design with seamless functionality. Built on Next.js, Tailwind, and Shadcn for effortless customization.
+📊 Modern barcode + QR code generator with built-in code scanner, powered by JsBarcode, html5-qrcode, and qr-code-styling. Built with Next.js, Tailwind, and shadcn/ui — customizable.
 
 ## ☁️ Deploy your own
 
