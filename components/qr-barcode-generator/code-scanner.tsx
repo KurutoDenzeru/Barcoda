@@ -32,6 +32,8 @@ export const CodeScanner = () => {
   const [error, setError] = React.useState<string | null>(null);
   const scannerRef = React.useRef<Html5Qrcode | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  // Used to poll for the video element becoming visible/ready (helpful on iOS)
+  const videoCheckRef = React.useRef<number | null>(null);
 
   const handleStartCamera = async () => {
     setError(null);
@@ -86,21 +88,9 @@ export const CodeScanner = () => {
       );
 
       setIsScanning(true);
-      // Ensure the created video/canvas elements fill the scanner container.
-      // Some browsers create video elements without a set height; force it to show.
+      // Ensure the created video/canvas elements fill the scanner container and check feed visibility.
       try {
         ensureVideoIsVisible();
-        // If the video node doesn't render within 1.5s, show a helpful error and toast.
-        setTimeout(() => {
-          const container = document.getElementById("qr-reader");
-          const video = container?.querySelector("video");
-          if (!video) {
-            setError(
-              "Camera feed didn't appear in the page. Try reloading or opening this page in a standard browser (Safari/Chrome)."
-            );
-            toast.error("Camera feed not visible");
-          }
-        }, 1500);
       } catch (e) {
         console.warn("Could not apply video styles:", e);
       }
@@ -237,36 +227,116 @@ export const CodeScanner = () => {
     setError(null);
   };
 
-  // Ensure the video/canvas inside the qr-reader container fills the area.
+  // Ensure the video/canvas inside the qr-reader container fills the area and is visible on iOS.
   const ensureVideoIsVisible = () => {
     const container = document.getElementById("qr-reader") as HTMLElement | null;
     if (!container) return;
+
     // Add a tailwind height class so the video has space.
     container.classList.add("h-64");
-    const video = container.querySelector("video") as HTMLVideoElement | null;
-    if (video) {
+
+    // On small/mobile screens (especially iPhone), give more vertical space and account for safe area.
+    if (window.innerWidth <= 640 || /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      container.style.minHeight = "50vh";
+      try {
+        container.style.paddingBottom = "env(safe-area-inset-bottom)";
+      } catch (e) {}
+    }
+
+    const applyStylesToVideo = (video: HTMLVideoElement) => {
+      // ensure inline playback on iOS
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+      video.setAttribute("muted", "");
+      video.muted = true;
+      video.setAttribute("autoplay", "");
+      video.autoplay = true;
+
+      video.style.display = "block";
       video.style.width = "100%";
       video.style.height = "100%";
       video.style.objectFit = "cover";
-      video.muted = true;
-      // ensure mobile autoplay works
+      video.style.position = "relative";
+      video.style.zIndex = "1";
+
       try {
-        video.playsInline = true;
+        (video as any).playsInline = true;
       } catch (e) {}
-      video.autoplay = true;
+
+      // try to kickstart playback
       video.play().catch(() => {});
-    }
-    const canvas = container.querySelector("canvas") as HTMLCanvasElement | null;
-    if (canvas) {
+    };
+
+    const applyToCanvas = (canvas: HTMLCanvasElement) => {
       canvas.style.width = "100%";
       canvas.style.height = "100%";
+      canvas.style.position = "relative";
+      canvas.style.zIndex = "2";
+    };
+
+    const tryApply = () => {
+      let video = container.querySelector("video") as HTMLVideoElement | null;
+      if (!video) {
+        // try globally if library appended elsewhere
+        video = document.querySelector("video") as HTMLVideoElement | null;
+      }
+      if (video) applyStylesToVideo(video);
+
+      const canvas = container.querySelector("canvas") as HTMLCanvasElement | null;
+      if (canvas) applyToCanvas(canvas);
+
+      return video;
+    };
+
+    // Try once and then poll for up to ~3 seconds for the video to become ready/render.
+    const videoNow = tryApply();
+    if (videoNow && videoNow.readyState > 1 && (videoNow.videoWidth || videoNow.videoHeight)) {
+      return;
     }
+
+    if (videoCheckRef.current) {
+      clearInterval(videoCheckRef.current);
+      videoCheckRef.current = null;
+    }
+
+    let attempts = 0;
+    videoCheckRef.current = window.setInterval(() => {
+      attempts++;
+      const v = tryApply();
+      if (v && v.readyState > 1 && (v.videoWidth || v.videoHeight)) {
+        // visible and rendering
+        if (videoCheckRef.current) {
+          clearInterval(videoCheckRef.current);
+          videoCheckRef.current = null;
+        }
+        return;
+      }
+
+      if (attempts >= 6) {
+        if (videoCheckRef.current) {
+          clearInterval(videoCheckRef.current);
+          videoCheckRef.current = null;
+        }
+        setError(
+          "Camera feed was started but the video isn't rendering inline on this browser. Try opening this page in Safari or Chrome and ensure inline playback is enabled."
+        );
+        toast.error("Camera feed not rendering");
+      }
+    }, 500);
   };
 
   const resetVideoStyles = () => {
     const container = document.getElementById("qr-reader") as HTMLElement | null;
     if (!container) return;
     container.classList.remove("h-64");
+    container.style.minHeight = "";
+    container.style.paddingBottom = "";
+
+    if (videoCheckRef.current) {
+      clearInterval(videoCheckRef.current);
+      videoCheckRef.current = null;
+    }
+
     const video = container.querySelector("video") as HTMLVideoElement | null;
     if (video) {
       try {
@@ -275,11 +345,22 @@ export const CodeScanner = () => {
       video.style.width = "";
       video.style.height = "";
       video.style.objectFit = "";
+      video.style.display = "";
+      video.style.position = "";
+      video.style.zIndex = "";
+      try {
+        video.removeAttribute("playsinline");
+        video.removeAttribute("webkit-playsinline");
+        video.removeAttribute("muted");
+        video.removeAttribute("autoplay");
+      } catch (e) {}
     }
     const canvas = container.querySelector("canvas") as HTMLCanvasElement | null;
     if (canvas) {
       canvas.style.width = "";
       canvas.style.height = "";
+      canvas.style.position = "";
+      canvas.style.zIndex = "";
     }
   };
 
