@@ -19,6 +19,7 @@ import {
 } from "./types";
 import { Download, Share2, Copy, ImageIcon, Link, ChevronDown, ChevronRight } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -203,7 +204,7 @@ export const QRCodeGenerator = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Preview Section */}
       <div className="order-1 lg:order-2 flex flex-col items-center justify-center p-6 bg-muted/30 rounded-2xl border border-border/50 min-h-75">
         <div
@@ -269,11 +270,11 @@ export const QRCodeGenerator = () => {
 
       {/* Settings Section */}
       <div className="order-2 lg:order-1">
-        <ScrollArea className="h-[calc(100vh-200px)] pr-4">
-          <div className="space-y-6">
+        <ScrollArea className="max-h-[calc(100vh-200px)] pr-4">
+          <div className="space-y-4">
             {/* Content */}
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+            <Card className="p-4 border-border/50">
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                 Content
               </h3>
               <div>
@@ -286,11 +287,11 @@ export const QRCodeGenerator = () => {
                   className="mt-1.5"
                 />
               </div>
-            </div>
+            </Card>
 
             {/* Size & Layout */}
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+            <Card className="p-4 border-border/50">
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                 Size & Layout
               </h3>
               <div className="grid grid-cols-2 gap-4">
@@ -351,11 +352,11 @@ export const QRCodeGenerator = () => {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
 
             {/* Logo / Image */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
+            <Card className="p-4 border-border/50">
+              <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                   Logo
                 </h3>
@@ -446,11 +447,11 @@ export const QRCodeGenerator = () => {
                   )}
                 </div>
               )}
-            </div>
+            </Card>
 
             {/* Colors */}
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+            <Card className="p-4 border-border/50">
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                 Colors
               </h3>
               <div className="grid grid-cols-2 gap-4">
@@ -519,10 +520,10 @@ export const QRCodeGenerator = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
 
             {/* Advanced Settings */}
-            <div className="space-y-4">
+            <Card className="p-4 border-border/50">
               <Button
                 variant="ghost"
                 size="sm"
@@ -536,9 +537,9 @@ export const QRCodeGenerator = () => {
               </Button>
               
               {showAdvanced && (
-                <div className="space-y-6 animate-in slide-in-from-top-2">
+                <div className="space-y-6 mt-4 animate-in slide-in-from-top-2">
                   {/* Dot Styles */}
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <h3 className="text-sm font-medium text-muted-foreground">
                       Dot Style
                     </h3>
@@ -558,7 +559,7 @@ export const QRCodeGenerator = () => {
                   </div>
 
                   {/* Corner Square Type */}
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <h3 className="text-sm font-medium text-muted-foreground">
                       Corner Square Type
                     </h3>
@@ -578,7 +579,7 @@ export const QRCodeGenerator = () => {
                   </div>
 
                   {/* Corner Dot Type */}
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <h3 className="text-sm font-medium text-muted-foreground">
                       Corner Dot Type
                     </h3>
@@ -598,7 +599,7 @@ export const QRCodeGenerator = () => {
                   </div>
 
                   {/* Error Correction */}
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <h3 className="text-sm font-medium text-muted-foreground">
                       Error Correction Level
                     </h3>
@@ -619,7 +620,7 @@ export const QRCodeGenerator = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </Card>
           </div>
         </ScrollArea>
       </div>

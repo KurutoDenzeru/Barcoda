@@ -105,7 +105,7 @@ export const CodeScanner = () => {
       </Label> */}
 
       {/* Scanner Area */}
-      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Upload Section */}
         <div className="space-y-4">
 
