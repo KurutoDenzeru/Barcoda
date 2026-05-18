@@ -21,13 +21,15 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
     { value: "scan", label: "Scan", icon: Scan },
   ];
 
-  const { setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleTheme = () => {
-    if (typeof window === "undefined") return;
-    const root = document.documentElement;
-    const isDark = root.classList.contains("dark") || root.getAttribute("data-theme") === "dark";
-    setTheme(isDark ? "light" : "dark");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   return (
@@ -104,8 +106,11 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                 )}
                 aria-label="Toggle theme"
               >
-                <Sun className="size-5 block dark:hidden" />
-                <Moon className="size-5 hidden dark:block" />
+                {mounted && resolvedTheme === "dark" ? (
+                  <Moon className="size-5" />
+                ) : (
+                  <Sun className="size-5" />
+                )}
               </button>
             </TooltipTrigger>
             <TooltipContent>Toggle theme</TooltipContent>
@@ -183,8 +188,11 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                 )}
                 aria-label="Toggle theme"
               >
-                <Sun className="size-5 block dark:hidden" />
-                <Moon className="size-5 hidden dark:block" />
+                {mounted && resolvedTheme === "dark" ? (
+                  <Moon className="size-5" />
+                ) : (
+                  <Sun className="size-5" />
+                )}
               </button>
             </TooltipTrigger>
             <TooltipContent>Toggle theme</TooltipContent>

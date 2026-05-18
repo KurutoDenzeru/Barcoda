@@ -34,7 +34,10 @@ export const QRBarcodeGenerator = () => {
     }
   };
 
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = React.useState(2026);
+  React.useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
