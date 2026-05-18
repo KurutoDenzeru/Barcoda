@@ -36,7 +36,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
     <>
       {/* Desktop Floating Dock - Apple Liquid Glass Design at Top */}
       <div className="hidden md:flex fixed top-4 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex items-center gap-2 px-2 py-1.5 bg-background/60 backdrop-blur-2xl border border-border/40 rounded-2xl shadow-2xl shadow-black/5">
+        <div className="flex items-center gap-2 px-2 py-1.5 bg-background/60 backdrop-blur-2xl border border-border/40 rounded-2xl shadow-md">
           {tabs.map((tab) => {
             const Icon = tab.icon;
 
@@ -77,7 +77,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                       "group relative flex items-center justify-center size-10 rounded-xl transition-all duration-300 ease-out cursor-pointer",
                       "hover:scale-110 active:scale-95",
                       activeTab === tab.value
-                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+                        ? "bg-primary text-primary-foreground shadow-sm"
                         : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                     )}
                     aria-label={tab.label}
@@ -120,7 +120,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
 
       {/* Mobile iPhone Dock */}
       <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[85%] max-w-md">
-        <div className="flex items-center justify-around p-2 bg-background/60 backdrop-blur-2xl border border-border/40 rounded-3xl shadow-2xl shadow-black/10">
+        <div className="flex items-center justify-around p-2 bg-background/60 backdrop-blur-2xl border border-border/40 rounded-3xl shadow-md">
           {tabs.map((tab, idx) => {
             const Icon = tab.icon;
 
@@ -163,8 +163,8 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
                       className={cn(
                         "flex items-center justify-center size-11 rounded-xl transition-all duration-300",
                         activeTab === tab.value
-                          ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30 scale-105"
-                          : "text-muted-foreground"
+                        ? "bg-primary text-primary-foreground shadow-sm scale-105"
+                        : "text-muted-foreground"
                       )}
                     >
                       {Icon && <Icon className="size-5" />}

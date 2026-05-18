@@ -130,7 +130,7 @@ export const CodeScanner = () => {
               // remove Card's base ring so our dashed border is not overlapped
               "ring-0 p-6 border-[2.5px] border-dashed border-muted cursor-pointer flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition duration-150 ease-in-out transform",
               isDragging
-                ? "border-primary/80 bg-primary/5 shadow-lg scale-105 ring-0"
+                ? "border-primary/80 bg-primary/5 shadow-sm scale-105 ring-0"
                 : "hover:border-primary/80 hover:bg-primary/5 hover:shadow-sm"
             )}
             role="button"
