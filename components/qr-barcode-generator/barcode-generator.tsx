@@ -43,7 +43,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -484,7 +483,7 @@ export const BarcodeGenerator = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="w-full max-w-5xl lg:max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Preview Section */}
       <div className="order-1 lg:order-2 flex flex-col items-center justify-center p-6 bg-muted/30 rounded-2xl border border-border/50 min-h-75">
         <div className="bg-white rounded-xl p-4 shadow-sm overflow-auto max-w-full">
@@ -543,7 +542,7 @@ export const BarcodeGenerator = () => {
       {/* Settings Section */}
       <div className="order-2 lg:order-1 space-y-4">
         {/* Content */}
-        <Card className="p-4 border-border/50">
+        <div className="rounded-xl border border-border bg-card p-4">
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
             Content
           </h3>
@@ -603,10 +602,10 @@ export const BarcodeGenerator = () => {
               </Select>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Size & Layout */}
-        <Card className="p-4 border-border/50">
+        <div className="rounded-xl border border-border bg-card p-4">
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
             Size & Layout
           </h3>
@@ -654,10 +653,10 @@ export const BarcodeGenerator = () => {
               />
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Colors */}
-        <Card className="p-4 border-border/50">
+        <div className="rounded-xl border border-border bg-card p-4">
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
             Colors
           </h3>
@@ -695,10 +694,10 @@ export const BarcodeGenerator = () => {
               </div>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Text Options */}
-        <Card className="p-4 border-border/50">
+        <div className="rounded-xl border border-border bg-card p-4">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
               Text Options
@@ -880,7 +879,7 @@ export const BarcodeGenerator = () => {
               </div>
             </div>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );

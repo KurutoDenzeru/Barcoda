@@ -18,8 +18,6 @@ import {
   ExportFormat,
 } from "./types";
 import { Download, Share2, Copy, ImageIcon, Link, ChevronDown, ChevronRight } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -204,7 +202,7 @@ export const QRCodeGenerator = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="w-full max-w-5xl lg:max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Preview Section */}
       <div className="order-1 lg:order-2 flex flex-col items-center justify-center p-6 bg-muted/30 rounded-2xl border border-border/50 min-h-75">
         <div
@@ -269,11 +267,9 @@ export const QRCodeGenerator = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="order-2 lg:order-1">
-        <ScrollArea className="max-h-[calc(100vh-200px)] pr-4">
-          <div className="space-y-4">
+      <div className="order-2 lg:order-1 space-y-4">
             {/* Content */}
-            <Card className="p-4 border-border/50">
+            <div className="rounded-xl border border-border bg-card p-4">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                 Content
               </h3>
@@ -287,10 +283,10 @@ export const QRCodeGenerator = () => {
                   className="mt-1.5"
                 />
               </div>
-            </Card>
+            </div>
 
             {/* Size & Layout */}
-            <Card className="p-4 border-border/50">
+            <div className="rounded-xl border border-border bg-card p-4">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                 Size & Layout
               </h3>
@@ -352,10 +348,10 @@ export const QRCodeGenerator = () => {
                   />
                 </div>
               </div>
-            </Card>
+            </div>
 
             {/* Logo / Image */}
-            <Card className="p-4 border-border/50">
+            <div className="rounded-xl border border-border bg-card p-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                   Logo
@@ -447,10 +443,10 @@ export const QRCodeGenerator = () => {
                   )}
                 </div>
               )}
-            </Card>
+            </div>
 
             {/* Colors */}
-            <Card className="p-4 border-border/50">
+            <div className="rounded-xl border border-border bg-card p-4">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
                 Colors
               </h3>
@@ -520,10 +516,10 @@ export const QRCodeGenerator = () => {
                   </div>
                 </div>
               </div>
-            </Card>
+            </div>
 
             {/* Advanced Settings */}
-            <Card className="p-4 border-border/50">
+            <div className="rounded-xl border border-border bg-card p-4">
               <Button
                 variant="ghost"
                 size="sm"
@@ -620,9 +616,7 @@ export const QRCodeGenerator = () => {
                   </div>
                 </div>
               )}
-            </Card>
-          </div>
-        </ScrollArea>
+            </div>
       </div>
     </div>
   );
