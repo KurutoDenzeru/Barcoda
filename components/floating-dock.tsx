@@ -32,85 +32,69 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
+  const renderTab = (tab: typeof tabs[number]) => {
+    const Icon = tab.icon;
+
+    if (tab.isBrand) {
+      return (
+        <React.Fragment key={tab.value}>
+          <Tooltip>
+            <TooltipTrigger>
+              <button
+                type="button"
+                onClick={() => onTabChange("barcode")}
+                className="flex items-center justify-center size-10 rounded-xl text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors cursor-pointer"
+                aria-label="Go to Barcode"
+              >
+                <Image src="/brand.webp" alt="Barcoda" width={20} height={20} className="size-6 rounded-lg" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Home</TooltipContent>
+          </Tooltip>
+          <Separator orientation="vertical" className="mx-1" />
+        </React.Fragment>
+      );
+    }
+
+    return (
+      <Tooltip key={tab.value}>
+        <TooltipTrigger>
+          <button
+            onClick={() => onTabChange(tab.value)}
+            className={cn(
+              "flex items-center justify-center size-10 rounded-xl transition-all duration-300 cursor-pointer",
+              "active:scale-95",
+              activeTab === tab.value
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+            )}
+            aria-label={tab.label}
+          >
+            {Icon && <Icon className={cn("size-5", activeTab === tab.value && "scale-110")} />}
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>{tab.label}</TooltipContent>
+      </Tooltip>
+    );
+  };
+
+  const dockShell = "flex items-center gap-2 px-2 py-1.5 bg-background/60 backdrop-blur-2xl border border-border/40 rounded-2xl shadow-md";
+
   return (
     <>
-      {/* Desktop Floating Dock - Apple Liquid Glass Design at Top */}
+      {/* Desktop - top */}
       <div className="hidden md:flex fixed top-4 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex items-center gap-2 px-2 py-1.5 bg-background/60 backdrop-blur-2xl border border-border/40 rounded-2xl shadow-md">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-
-            if (tab.isBrand) {
-              return (
-                <React.Fragment key={tab.value}>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <button
-                        type="button"
-                        onClick={() => onTabChange("barcode")}
-                        className="flex items-center justify-center gap-2 px-2 rounded-xl hover:scale-105 hover:bg-muted/50 hover:text-foreground transition-transform cursor-pointer"
-                        aria-label="Go to Barcode"
-                      >
-                        <div className={cn(
-                          "flex items-center justify-center size-10 rounded-xl transition-all duration-300",
-                          "text-muted-foreground"
-                        )}>
-                          <Image src="/brand.webp" alt="Barcoda" width={20} height={20} className="size-8 rounded-lg" />
-                        </div>
-                        <span className="hidden md:inline text-sm font-semibold select-none">Barcoda</span>
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent>Home</TooltipContent>
-                  </Tooltip>
-
-                  <Separator orientation="vertical" className="mx-1" />
-                </React.Fragment>
-              );
-            }
-
-            return (
-              <Tooltip key={tab.value}>
-                <TooltipTrigger>
-                  <button
-                    onClick={() => onTabChange(tab.value)}
-                    className={cn(
-                      "group relative flex items-center justify-center size-10 rounded-xl transition-all duration-300 ease-out cursor-pointer",
-                      "hover:scale-110 active:scale-95",
-                      activeTab === tab.value
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                    )}
-                    aria-label={tab.label}
-                  >
-                    {Icon && <Icon className={cn(
-                      "size-5 transition-all duration-300",
-                      activeTab === tab.value ? "scale-110" : "group-hover:scale-110"
-                    )} />}
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>{tab.label}</TooltipContent>
-              </Tooltip>
-            );
-          })}
-
+        <div className={dockShell}>
+          {tabs.map(renderTab)}
           <Separator orientation="vertical" className="mx-1" />
-
-          {/* Theme toggle - simple click to switch between light/dark */}
           <Tooltip>
             <TooltipTrigger>
               <button
                 onClick={toggleTheme}
-                className={cn(
-                  "flex items-center justify-center size-10 rounded-xl transition-all duration-300 cursor-pointer",
-                  "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                )}
+                className="flex items-center justify-center size-10 rounded-xl transition-colors cursor-pointer text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 aria-label="Toggle theme"
               >
-                {mounted && resolvedTheme === "dark" ? (
-                  <Moon className="size-5" />
-                ) : (
-                  <Sun className="size-5" />
-                )}
+                {mounted && resolvedTheme === "dark" ? <Moon className="size-5" /> : <Sun className="size-5" />}
               </button>
             </TooltipTrigger>
             <TooltipContent>Toggle theme</TooltipContent>
@@ -118,81 +102,19 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
         </div>
       </div>
 
-      {/* Mobile iPhone Dock */}
-      <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[85%] max-w-md">
-        <div className="flex items-center justify-around p-2 bg-background/60 backdrop-blur-2xl border border-border/40 rounded-3xl shadow-md">
-          {tabs.map((tab, idx) => {
-            const Icon = tab.icon;
-
-            if (tab.isBrand) {
-              return (
-                <React.Fragment key={tab.value}>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <button
-                        type="button"
-                        onClick={() => onTabChange("barcode")}
-                        className="flex items-center justify-center px-1 py-1 rounded-xl hover:scale-105 hover:bg-muted/50 hover:text-foreground transition-transform cursor-pointer"
-                        aria-label="Go to Barcode"
-                      >
-                        <div className="flex items-center justify-center size-11 rounded-xl">
-                          <Image src="/brand.webp" alt="Barcoda" width={24} height={24} className="size-9 rounded-lg" />
-                        </div>
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent>Home</TooltipContent>
-                  </Tooltip>
-
-                  <Separator orientation="vertical" className="mr-2" />
-                </React.Fragment>
-              );
-            }
-
-            return (
-              <Tooltip key={tab.value}>
-                <TooltipTrigger>
-                  <button
-                    onClick={() => onTabChange(tab.value)}
-                    className={cn(
-                      "relative flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer",
-                      "active:scale-95"
-                    )}
-                    aria-label={tab.label}
-                  >
-                    <div
-                      className={cn(
-                        "flex items-center justify-center size-11 rounded-xl transition-all duration-300",
-                        activeTab === tab.value
-                        ? "bg-primary text-primary-foreground shadow-sm scale-105"
-                        : "text-muted-foreground"
-                      )}
-                    >
-                      {Icon && <Icon className="size-5" />}
-                    </div>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>{tab.label}</TooltipContent>
-              </Tooltip>
-            );
-          })}
-
-          <Separator orientation="vertical" />
-
+      {/* Mobile - bottom, same inner structure */}
+      <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+        <div className={dockShell}>
+          {tabs.map(renderTab)}
+          <Separator orientation="vertical" className="mx-1" />
           <Tooltip>
             <TooltipTrigger>
               <button
                 onClick={toggleTheme}
-                className={cn(
-                  "flex items-center justify-center size-11 rounded-xl transition-all duration-300 cursor-pointer",
-                  "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                )}
+                className="flex items-center justify-center size-10 rounded-xl transition-colors cursor-pointer text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 aria-label="Toggle theme"
               >
-                {mounted && resolvedTheme === "dark" ? (
-                  <Moon className="size-5" />
-                ) : (
-                  <Sun className="size-5" />
-                )}
+                {mounted && resolvedTheme === "dark" ? <Moon className="size-5" /> : <Sun className="size-5" />}
               </button>
             </TooltipTrigger>
             <TooltipContent>Toggle theme</TooltipContent>

@@ -97,15 +97,15 @@ export const QRBarcodeGenerator = () => {
       <FloatingDock activeTab={activeTab} onTabChange={handleTabChange} />
 
       {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center w-full">
-        <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 mx-auto flex justify-center">
+      <main className="flex-1 flex items-start justify-center w-full">
+        <div className="w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 mx-auto">
           {renderContent()}
         </div>
       </main>
 
       {/* Footer */}
       <footer className="mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-center sm:text-left text-xs text-muted-foreground">
               © {currentYear} Barcoda. KurutoDenzeru. All rights reserved.
