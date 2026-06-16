@@ -78,7 +78,7 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
     );
   };
 
-  const dockShell = "flex items-center gap-2 px-2 py-1.5 bg-background/60 backdrop-blur-2xl border border-border/40 rounded-2xl shadow-md";
+  const dockShell = "flex items-center gap-2 px-2 py-1.5 bg-background/60 backdrop-blur-2xl border border-border/40 rounded-2xl shadow-xs";
 
   return (
     <>
@@ -90,7 +90,9 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
           <Tooltip>
             <TooltipTrigger>
               <button
+                type="button"
                 onClick={toggleTheme}
+                suppressHydrationWarning
                 className="flex items-center justify-center size-10 rounded-xl transition-colors cursor-pointer text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 aria-label="Toggle theme"
               >
@@ -110,7 +112,9 @@ export function FloatingDock({ activeTab, onTabChange }: FloatingDockProps) {
           <Tooltip>
             <TooltipTrigger>
               <button
+                type="button"
                 onClick={toggleTheme}
+                suppressHydrationWarning
                 className="flex items-center justify-center size-10 rounded-xl transition-colors cursor-pointer text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                 aria-label="Toggle theme"
               >
