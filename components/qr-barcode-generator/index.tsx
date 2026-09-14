@@ -34,11 +34,6 @@ export const QRBarcodeGenerator = () => {
     }
   };
 
-  const [currentYear, setCurrentYear] = React.useState(2026);
-  React.useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
-
   const renderContent = () => {
     switch (activeTab) {
       case "barcode":
@@ -108,7 +103,7 @@ export const QRBarcodeGenerator = () => {
         <div className="max-w-5xl lg:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-center sm:text-left text-xs text-muted-foreground">
-              © {currentYear} Barcoda. KurutoDenzeru. All rights reserved.
+              © 2026 Barcoda. KurutoDenzeru. All rights reserved.
             </p>
 
             <div className="flex items-center gap-3">

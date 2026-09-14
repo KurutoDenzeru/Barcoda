@@ -215,10 +215,8 @@ export const QRCodeGenerator = () => {
         {/* Export Actions */}
         <div className="flex flex-wrap gap-2 mt-6 justify-center">
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button variant="outline" size="sm">
-                <Download className="size-4" /> Export <ChevronDown className="size-3 ml-1" />
-              </Button>
+            <DropdownMenuTrigger className="inline-flex items-center justify-center whitespace-nowrap h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground border border-transparent text-sm font-medium focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-all disabled:pointer-events-none disabled:opacity-50 select-none outline-none [&_svg]:size-3.5">
+              <Download className="size-4" /> Export <ChevronDown className="size-3 ml-1" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleExport("png")}>
@@ -237,10 +235,8 @@ export const QRCodeGenerator = () => {
           </DropdownMenu>
           
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button variant="outline" size="sm">
-                <Copy className="size-4" /> Copy <ChevronDown className="size-3 ml-1" />
-              </Button>
+            <DropdownMenuTrigger className="inline-flex items-center justify-center whitespace-nowrap h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground border border-transparent text-sm font-medium focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-all disabled:pointer-events-none disabled:opacity-50 select-none outline-none [&_svg]:size-3.5">
+              <Copy className="size-4" /> Copy <ChevronDown className="size-3 ml-1" />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleCopyToClipboard()}>
@@ -267,7 +263,7 @@ export const QRCodeGenerator = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="order-2 lg:order-1 space-y-4">
+      <div className="order-2 lg:order-1 space-y-4" suppressHydrationWarning>
             {/* Content */}
             <div className="rounded-xl border border-border bg-card p-4">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">

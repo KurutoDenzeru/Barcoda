@@ -494,10 +494,8 @@ export const BarcodeGenerator = () => {
         {/* Export Actions */}
         <div className="flex flex-wrap gap-2 mt-6 justify-center">
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button variant="outline" size="sm">
+            <DropdownMenuTrigger className="inline-flex items-center justify-center whitespace-nowrap h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground border border-transparent text-sm font-medium focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-all disabled:pointer-events-none disabled:opacity-50 select-none outline-none [&_svg]:size-3.5">
                 <Download className="size-4" /> Export <ChevronDown className="size-3 ml-1" />
-              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleExport("png")}>
@@ -516,10 +514,8 @@ export const BarcodeGenerator = () => {
           </DropdownMenu>
 
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button variant="outline" size="sm">
+            <DropdownMenuTrigger className="inline-flex items-center justify-center whitespace-nowrap h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground border border-transparent text-sm font-medium focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-all disabled:pointer-events-none disabled:opacity-50 select-none outline-none [&_svg]:size-3.5">
                 <Copy className="size-4" /> Copy <ChevronDown className="size-3 ml-1" />
-              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={() => handleCopyToClipboard()}>
@@ -540,7 +536,7 @@ export const BarcodeGenerator = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="order-2 lg:order-1 space-y-4">
+      <div className="order-2 lg:order-1 space-y-4" suppressHydrationWarning>
         {/* Content */}
         <div className="rounded-xl border border-border bg-card p-4">
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
@@ -551,15 +547,8 @@ export const BarcodeGenerator = () => {
               <div className="flex items-center gap-2">
                 <Label htmlFor="barcode-value">Value</Label>
                 <Tooltip>
-                  <TooltipTrigger>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7 p-0 text-muted-foreground"
-                      aria-label="Value guidance"
-                    >
-                      <Info className="size-4" />
-                    </Button>
+                  <TooltipTrigger className="h-7 w-7 p-0 text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-colors" aria-label="Value guidance">
+                    <Info className="size-4" />
                   </TooltipTrigger>
                   <TooltipContent side="right" align="start" className="max-w-sm text-left">
                     <p className="text-xs leading-relaxed">{formatTip}</p>
